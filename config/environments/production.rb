@@ -58,7 +58,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # for devise
-  config.action_mailer.default_url_options = { host: 'sendgrid.net' }
+  config.action_mailer.default_url_options = { host: 'project-gloria.herokuapp.com' }
   
 
   # Ignore bad email addresses and do not raise email delivery errors.
