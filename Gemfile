@@ -53,3 +53,5 @@ group :production do
 end
 
 gem 'devise'
+
+gem "twitter-bootstrap-rails"

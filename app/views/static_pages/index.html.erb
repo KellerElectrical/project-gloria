@@ -1,0 +1,16 @@
+<h1>Home</h1>
+<br/>
+<b>Registered Users:</b>
+<br/>
+<ul>
+<% @users.each do |u| %>
+	<% %>
+	<li><%= u.email %>&nbsp;<i><% (u.confirmed_at.nil? ? "" : "Confirmed") %></i> 
+	</li>
+
+<% end %>
+</ul>
+
+<br/>
+
+<%= button_to "Sign Out", destroy_user_session_url, method: :delete %>
