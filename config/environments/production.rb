@@ -59,6 +59,7 @@ Rails.application.configure do
 
   # for devise
   config.action_mailer.default_url_options = { host: 'project-gloria.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
   
 
   # Ignore bad email addresses and do not raise email delivery errors.
