@@ -58,7 +58,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # for devise
-  config.action_mailer.default_url_options = { host: 'project-gloria.herokuapp.com', from: "erik@project-gloria.herokuapp.com" }
+  config.action_mailer.default_url_options = { host: 'project-gloria.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
   
 
