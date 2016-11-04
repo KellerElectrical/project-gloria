@@ -1,15 +1,17 @@
-<h1>Home</h1>
-<br/>
-<b>Registered Users:</b>
-<br/>
-<ul>
-<% @users.each do |u| %>
-	<% %>
-	<li><%= u.email %>&nbsp;<i><% (u.confirmed_at.nil? ? "" : "Confirmed") %></i> 
-	</li>
 
+<h1>Home (Field)</h1>
+<br/>
+
+<p><b>Select Job #</b></p>
+<br/>
+<% if @jobs.empty? %>
+	<i>None</i>
 <% end %>
-</ul>
+
+<% @jobs.each do |job| %>
+	<%= link_to "Job #{job.job_number}", job_url(job), method: :get %>
+	<br/>
+<% end %>
 
 <br/>
 

@@ -1,0 +1,19 @@
+<h1>Job <%= @job.job_number %></h1>
+<p>Tasks</p>
+<ul>
+<% if @job.tasks.empty? %>
+	<li>None</li>
+<% else %>
+	<% @job.tasks.each do |task| %>
+		<li><%= task.type %></li>
+	<% end %>
+<% end %>
+</ul>
+<br/>
+<br/>
+New Task:
+<%= form_for @task, url: {action: "create"} do |f| %>
+  <%= f.text_field :type %>
+  <input type="hidden" name="task[job_id]" value="<%= @job.id %>"/>
+  <%= f.submit "Create" %>
+<% end %>

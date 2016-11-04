@@ -2,8 +2,12 @@ class StaticPagesController < ApplicationController
 	before_action :authenticate
 
 	def index
-		@users = User.all
-		render :index
+		@jobs = Job.all
+		if current_user.admin?
+			render :admin_index
+		else
+			render :index
+		end
 	end
 
 	private

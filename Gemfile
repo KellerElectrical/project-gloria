@@ -54,6 +54,6 @@ end
 
 gem 'devise'
 
-gem "twitter-bootstrap-rails"
+gem "bootstrap-sass"
 
 gem 'sendgrid-ruby'
