@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104195815) do
+ActiveRecord::Schema.define(version: 20161110204538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,11 +24,13 @@ ActiveRecord::Schema.define(version: 20161104195815) do
 
   create_table "tasks", force: :cascade do |t|
     t.integer  "job_id"
-    t.string   "type"
-    t.datetime "scheduled_time"
-    t.integer  "quantity"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "name"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.float    "man_hours"
+    t.float    "quantity"
+    t.string   "quantity_units"
+    t.boolean  "bid",            default: false
     t.index ["job_id"], name: "index_tasks_on_job_id", using: :btree
   end
 

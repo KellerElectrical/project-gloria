@@ -1,3 +1,4 @@
+<%= link_to "Back", root_url, method: :get %>
 <h1>Job <%= @job.job_number %></h1>
 <p>Tasks</p>
 <ul>
@@ -5,15 +6,31 @@
 	<li>None</li>
 <% else %>
 	<% @job.tasks.each do |task| %>
-		<li><%= task.type %></li>
+		<li><%= task.name %>
+		<ul>
+			<li>Total hours: <%= task.man_hours %>, Qty: <%= task.quantity %> <%= task.quantity_units %> </li>
+			Update:
+			<%= form_for task do |f| %>
+				<%= f.text_field :man_hours, value: "", placeholder: "Total hours", size: 9 %>
+			  <%= f.text_field :quantity, value: "", placeholder: "Quantity", size: 7 %>
+			  <%= f.select(:quantity_units, units) %>
+			  <input type="submit" value="Update Task">
+			<% end %>
+		</ul>
+		</li>
+		<br/>
 	<% end %>
 <% end %>
 </ul>
 <br/>
 <br/>
+
 New Task:
-<%= form_for @task, url: {action: "create"} do |f| %>
-  <%= f.text_field :type %>
+<%= form_for @task do |f| %>
+  <%= f.text_field :name, placeholder: "Name" %>
+  <%= f.text_field :man_hours, placeholder: "Man hours" %>
+  <%= f.text_field :quantity, placeholder: "Quantity" %>
+  <%= f.select(:quantity_units, units) %>
   <input type="hidden" name="task[job_id]" value="<%= @job.id %>"/>
-  <%= f.submit "Create" %>
+  <input type="submit" value="Create Task">
 <% end %>

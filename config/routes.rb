@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 		get 'sign_up', to: 'devise/registrations#new'
 	end
 
-	resources :jobs, only: [:show, :create, :index, :destroy]
-	resource :tasks, only: [:create, :destroy]
+	resources :jobs, only: [:new, :show, :create, :index, :destroy]
+	resources :tasks, only: [:create, :destroy, :update]
 
 end

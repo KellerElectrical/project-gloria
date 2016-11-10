@@ -1,0 +1,12 @@
+<h1>New Job</h1>
+<%= link_to "Upload Excel File" %>
+<br/>
+<br/>
+or
+<br/>
+<br/>
+Enter Manually:
+<%= form_for @job do |f| %>
+	<%= f.text_field :job_number, placeholder: "Job #" %>
+	<input type="submit" value="Create">
+<% end %>

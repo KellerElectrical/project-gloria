@@ -1,8 +1,19 @@
 <h1>Home (Admin)</h1>
 <br/>
 
-<%= link_to "Browse Jobs", "#", method: :get %><br/>
-<%= link_to "Upload Excel File", "#", method: :get %>
+<p><b>Select Job #</b></p>
+<% if @jobs.empty? %>
+	<i>None</i>
+<% else %>
+
+	<ul>
+	<% @jobs.each do |job| %>
+		<li><%= link_to "Job #{job.job_number}", job_url(job), method: :get %></li>
+	<% end %>
+	</ul>
+<% end %>
+<br/>
+<%= link_to "New Job", new_job_url, method: :get %>
 
 <br/>
 <br/>

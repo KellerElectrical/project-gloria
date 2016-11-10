@@ -56,4 +56,8 @@ gem 'devise'
 
 gem "bootstrap-sass"
 
+# gem 'rmagick'
+
+# gem 'paperclip'
+
 gem 'sendgrid-ruby'
