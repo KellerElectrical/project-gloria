@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   after_save :skip_confirmation!
+
+  has_many :tasks
 end

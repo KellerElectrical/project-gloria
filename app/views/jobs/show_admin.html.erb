@@ -1,5 +1,5 @@
 <%= link_to "Back", root_url, method: :get %>
-<h1>Job <%= @job.job_number %></h1>
+<h1>Job <%= "#{@job.job_number} (Admin)" %></h1>
 <p>Tasks</p>
 <ul>
 <% if @job.tasks.empty? %>
@@ -7,6 +7,7 @@
 <% else %>
 	<% @bidtasks.each do |task| %>
 		<li><%= task.name %>
+		<%= button_to "Delete Task", task_url(task), method: :delete %>
 		<ul>
 			<li>Total bid hours: <%= task.hours %>, Bid qty: <%= task.quantity %> <%= task.quantity_units %> </li>
 			<li>Total actual hours: <%= task.get_actual_total(:hours) %></li>
@@ -18,9 +19,17 @@
 			<% end %>
 
 			<li>Posted by: <%= u.nil? ? "" : u.email %></li>
+			Update:
+			<%= form_for task do |f| %>
+				<%= f.text_field :hours, placeholder: "Total hours", size: 9 %>
+			  <%= f.text_field :quantity, placeholder: "Quantity", size: 7 %>
+			  <%= f.select(:quantity_units, units) %>
+			  <%= f.text_area :comments, rows: 1, cols: 15, placeholder: "Comments" %>
+			  <input type="submit" value="Update Task">
+			<% end %>
+			<br/>
 		</ul>
 		</li>
-		<br/>
 		Actual values:<br/>
 		<% task.actual_tasks.each do |actual| %>
 			Hours: <%= actual.hours %>,
@@ -40,22 +49,29 @@
 		<ul><li>None</li></ul>
 		<% end %>
 		<br/>
-
-		New Actual Entry:
-		<%= form_for @task do |f| %>
-		  <%= f.text_field :hours, placeholder: "Hours" %>
-		  <%= f.text_field :quantity, placeholder: "Quantity" %>
-		  <%= f.select(:quantity_units, units) %>
-		  <%= f.text_area :comments, rows: 1, cols: 15, placeholder: "Comments" %>
-		  <input type="hidden" name="task[job_id]" value="<%= @job.id %>"/>
-		  <input type="hidden" name="task[bidtask_id]" value="<%= task.id %>"/>
-		  <input type="hidden" name="task[user_id]" value="<%= current_user.id %>"/>
-		  <input type="submit" value="Create Task">
-		<% end %>
-		<br/>
-		
 	<% end %>
 <% end %>
 </ul>
+<br/>
+<br/>
+
+<h3>New Task:</h3>
+<%= form_for @task do |f| %>
+	<%= f.label "Name:" %>
+  <%= f.text_field :name %><br/>
+  <%= f.label "Bid Hours:" %>
+  <%= f.text_field :hours %><br/>
+  <%= f.label "Bid Quantity:" %>
+  <%= f.text_field :quantity %>
+  <%= f.select(:quantity_units, units) %><br/>
+  <%= f.label "Comments:" %>
+  <%= f.text_area :comments, rows: 2, cols: 15 %>
+  <input type="hidden" name="task[job_id]" value="<%= @job.id %>"/>
+  <input type="hidden" name="task[user_id]" value="<%= current_user.id %>"/>
+  <input type="hidden" name="task[bid]" value="true"/>
+  <br/>
+  <input type="submit" value="Create Task">
+<% end %>
+<br/>
 <br/>
 <br/>
