@@ -7,7 +7,7 @@ class JobsController < ApplicationController
 		else
 			@bidtasks = @job.tasks.where(bidtask_id: 0).order(:id)
 			@task = Task.new
-			render :show_partial
+			render :show
 		end
 	end
 
