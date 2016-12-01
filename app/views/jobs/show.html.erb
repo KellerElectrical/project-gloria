@@ -8,7 +8,7 @@
 	<li>None</li>
 <% else %>
 	<% @bidtasks.each do |task| %>
-		<li class="task"><%= task.name %>
+		<li class="task"><h3><%= task.name %></h3>
 		
 		<% if admin %>
 			<%= button_to "Delete Task", task_url(task), method: :delete %>
@@ -37,7 +37,7 @@
 				<% end %>
 			<% end %>
 			<br/>
-			Bid Units Per Hour:<input type="text-field" class="units-per-hour" value="1.0"/><button>Refresh</button>
+			Bid Hours Per Unit:<input type="text-field" class="hours-per-unit" value="1.0"/><button class="ref-button" onclick="location.reload();">Refresh</button>
 			<br/>
 		</ul>
 		Actual values:<br/>

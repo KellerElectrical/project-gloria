@@ -16,7 +16,7 @@ $(document).ready(function() {
   		var actuals = task.find("div.actual");
   		var totalactualhours = 0;
   		var totalactualqty = 0;
-  		var bidqtytotal = 0;
+  		var bidhourtotal = 0;
   		
   		var dataTableArr = [[0, 0, 0]];
 
@@ -30,13 +30,13 @@ $(document).ready(function() {
 	  			// Get Field Value for Units Per Hour
 	  			// ???
 	  			// quite possibly insecure
-	  			var uph = parseFloat(task.find(".units-per-hour").val());
+	  			var hpu = parseFloat(task.find(".hours-per-unit").val());
 	  			
 	  			// convert to float?
-		  		bidqtytotal += uph * new_actualhrs;
+		  		bidhourtotal += hpu * new_actualqty; 
 		  		//array = [total + new actual hours, total + new qty total, bid qty total]
 
-		  		newarr = [[totalactualhours + new_actualhrs, totalactualqty + new_actualqty, bidqtytotal]];
+		  		newarr = [[totalactualqty + new_actualqty, totalactualhours + new_actualhrs, bidhourtotal]];
 
 	  			dataTableArr = dataTableArr.concat(newarr);
 	  			totalactualhours += new_actualhrs;
@@ -44,8 +44,8 @@ $(document).ready(function() {
 	  		}
 		    var data = new google.visualization.DataTable();
 		    data.addColumn('number', 'X');
-	      data.addColumn('number', 'Actual qty');
-	      data.addColumn('number', 'Bid qty');
+	      data.addColumn('number', 'Actual hours');
+	      data.addColumn('number', 'Bid hours');
 	      data.addRows(dataTableArr);
 	/*[
 		      ['Year', 'Sales', 'Expenses'],
@@ -56,10 +56,10 @@ $(document).ready(function() {
 		    ]*/
 		    var options = {
 	        hAxis: {
-	          title: 'Hours'
+	          title: 'Quantity'
 	        },
 	        vAxis: {
-	          title: 'Quantity'
+	          title: 'Hours'
 	        },
 	        colors: ['#a52714', '#097138'],
 	        crosshair: {
