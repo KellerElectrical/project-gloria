@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115003222) do
+ActiveRecord::Schema.define(version: 20161211014553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20161115003222) do
     t.integer  "user_id",                    null: false
     t.text     "comments"
     t.integer  "bidtask_id",     default: 0, null: false
+    t.datetime "starttime"
+    t.datetime "stoptime"
     t.index ["bidtask_id"], name: "index_tasks_on_bidtask_id", using: :btree
     t.index ["job_id"], name: "index_tasks_on_job_id", using: :btree
     t.index ["user_id"], name: "index_tasks_on_user_id", using: :btree
