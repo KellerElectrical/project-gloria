@@ -6,7 +6,16 @@ class StaticPagesController < ApplicationController
 		if current_user.admin?
 			render :admin_index
 		else
-			render :index
+			timecard = current_user.get_todays_timecard
+			if timecard.nil?
+				redirect_to new_timecard_url
+			elsif timecard.stop_time.nil?
+				redirect_to timecard_url(timecard)
+			elsif timecard.tasks.empty?
+				redirect_to edit_timecard_url(timecard)
+			else
+				redirect_to new_timecard_url
+			end
 		end
 	end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161211014553) do
+ActiveRecord::Schema.define(version: 20161212040409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,11 +33,24 @@ ActiveRecord::Schema.define(version: 20161211014553) do
     t.integer  "user_id",                    null: false
     t.text     "comments"
     t.integer  "bidtask_id",     default: 0, null: false
-    t.datetime "starttime"
-    t.datetime "stoptime"
     t.index ["bidtask_id"], name: "index_tasks_on_bidtask_id", using: :btree
     t.index ["job_id"], name: "index_tasks_on_job_id", using: :btree
     t.index ["user_id"], name: "index_tasks_on_user_id", using: :btree
+  end
+
+  create_table "timecard_joins", force: :cascade do |t|
+    t.integer  "timecard_id", null: false
+    t.integer  "task_id",     null: false
+    t.float    "task_hours"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "timecards", force: :cascade do |t|
+    t.datetime "stop_time"
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

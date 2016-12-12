@@ -1,0 +1,34 @@
+<h1>New Timecard</h1>
+
+<%= form_for @timecard do |f| %>
+	<input type="hidden" name="timecard[user_id]" value="<%= current_user.id %>"/>
+	<input type="submit" value="Start"/>
+<% end %>
+
+<br/>
+<br/>
+
+<h3>Previous Timecards</h3>
+
+<% @timecards.each do |tc| %>
+	<% next if tc.stop_time.nil? %>
+	<% actual = tc.tasks.first %>
+	<b><%= tc.created_at.strftime("%F %T") %></b><br/>
+	Clock: <%= tc.get_clock %><br/>
+
+	<div class="actual">
+	<p>
+		Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
+		Hours: <span class="actlhrs"><%= actual.hours %></span>,
+		Comments: <%= actual.comments.nil? ? "None" : actual.comments %>, 
+		<% u = nil %>
+		<% unless actual.user_id.nil? %>
+			<% u = User.find(actual.user_id) %>
+		<% end %>
+
+		Posted by: <%= u.nil? ? "" : u.email %>
+		</p>
+	</div>
+	<br/>
+
+<% end %>

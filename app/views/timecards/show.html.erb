@@ -1,0 +1,10 @@
+<h3>Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
+
+Current time: <span class="current-time"><%= @timecard.get_clock %></span>
+
+<% if @timecard.stop_time.nil? %>
+	<%= form_for @timecard do |f| %>
+		<input type="hidden" name="stop" value="true"/>
+		<input type="submit" value="Stop"/>
+	<% end %>
+<% end %>

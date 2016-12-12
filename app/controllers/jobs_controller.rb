@@ -5,7 +5,7 @@ class JobsController < ApplicationController
 		if @job.nil?
 			flash[:errors] = "Job not found"
 		else
-			@bidtasks = @job.tasks.where(bidtask_id: 0).order(:id)
+			@bidtasks = @job.bidtasks
 			@task = Task.new
 			render :show
 		end

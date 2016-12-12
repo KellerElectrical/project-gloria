@@ -7,4 +7,12 @@ class User < ApplicationRecord
   after_save :skip_confirmation!
 
   has_many :tasks
+  has_many :timecards
+
+  def get_todays_timecard
+  	Timecard.order(created_at: :desc).where({
+  		user_id: self.id,
+  		created_at: Time.now.midnight..(Time.now.midnight + 1.day)
+  	}).first
+  end
 end
