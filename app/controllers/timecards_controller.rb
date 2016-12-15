@@ -1,13 +1,19 @@
 class TimecardsController < ApplicationController
+
 	def show
 		@timecard = Timecard.find(params[:id])
 		render :show
 	end
 
 	def new
-		@timecard = Timecard.new
-		@timecards = current_user.timecards
-		render :new
+		timecard = current_user.get_todays_timecard
+		if !timecard.nil? && timecard.tasks.empty?
+			redirect_to edit_timecard_url(timecard)
+		else
+			@timecard = Timecard.new
+			@timecards = current_user.timecards
+			render :new
+		end
 	end
 
 	def create
@@ -17,8 +23,13 @@ class TimecardsController < ApplicationController
 
 	def edit
 		@timecard = Timecard.find(params[:id])
-		@jobs = Job.all
-		render :edit
+		if @timecard.user_id != current_user.id
+			redirect_to root_url 
+		else
+			@actual = Task.new
+			@jobs = Job.all.select{|j| !j.tasks.empty? }
+			render :edit
+		end
 	end
 
 	def update

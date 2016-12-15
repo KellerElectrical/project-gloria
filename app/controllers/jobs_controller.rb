@@ -25,4 +25,15 @@ class JobsController < ApplicationController
 			redirect_to root_url
 		end
 	end
+
+	def get_tasks
+		# TODO: authenticate
+		@job = Job.find(params[:id])
+	  respond_to do |format|
+	  	# JSON object:
+	  	#[{\"id\":7,\"name\":\"sdfklsd\"},{\"id\":8,\"name\":\"Working\"},{\"id\":24,\"name\":\"console add\"}]"
+	    msg = @job.bidtasks.to_json(only: [:id, :name])
+	    format.json  { render :json => msg } # don't do msg.to_json
+	  end
+	end
 end

@@ -33,6 +33,10 @@
             <a class="navbar-brand" href="<%= root_url %>"><%= image_tag("keller.jpg") %></a>
           </div>
 
+          <div class="navbar-right">
+            <%= button_to "Log out", destroy_user_session_url(), method: :delete %>
+          </div>
+
         </div><!-- /.container-fluid -->
       </nav>
 

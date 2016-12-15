@@ -11,4 +11,6 @@ Rails.application.routes.draw do
 	resources :tasks, only: [:create, :destroy, :update]
 	resources :timecards, except: [:index, :destroy]
 
+	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
+
 end

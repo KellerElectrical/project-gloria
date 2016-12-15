@@ -1,29 +1,35 @@
 <h3>Finish Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
-<b>Time: <%= @timecard.get_clock %></b>
+Time: <%= @timecard.get_clock %>
 <br/>
 <br/>
-Check the box next to the task you worked on and fill out its fields:
 <br/>
-<br/>
-<%= form_for @timecard do |f| %>
+<div class="timecard-form">
+<%= form_for @actual do |f| %>
+	<input type="hidden" name="timecard[task_id][]" value="">
 
-	<% @jobs.each do |job| %>
-		<% next if job.bidtasks.empty? %>
-		<p>Job <%= job.job_number %></p>
-
-		<% job.bidtasks.each do |task| %>
-			<input type="radio" name="timecard[task_ids][]" value="<%= task.id %>" <%= "checked" if @timecard.task_ids.include?(task.id) %> >
-			<%= task.name %><br/>
-		<% end %>
-		<br/>
+	Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
+	<br/>
+	Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
+	<div class="task-fields">
+		<div class="fields">
 		<input type="text" name="task[hours]" placeholder="# Hours" size="9" class="task-hours-field" />
 	  <input type="text" name="task[quantity]" placeholder="Quantity" class="quantity-field" />
 	  <input type="hidden" name="task[quantity_units]" value="units" />
+	  <br/>
 	  <input type="text" name="task[comments]" placeholder="Comments" class="comment-field" />
-
-	  <input type="hidden" name="task[job_id]" value="<%= job.id %>"/>
+	  <input type="hidden" name="task[job_id]" value=""/>
 	  <input type="hidden" name="task[user_id]" value="<%= current_user.id %>"/>
-	<% end %>
+	  <br/>
+  	</div>
+  <button class="add-task">Add Task</button>
+  <br/>
+  </div>
+  <br/>
+  <button class="add-job">Add Job</button>
+	<br/>
+
+
 	<br/>
 	<input type="submit" value="Submit"/>
 <% end %>
+</div>

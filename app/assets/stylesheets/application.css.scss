@@ -19,6 +19,7 @@
 
 .comment-field {
 	width: 400px;
+	margin-top: 3px;
 }
 
 .hours-field {
@@ -27,4 +28,28 @@
 
 .quantity-field {
 	width: 150px;
+}
+
+.select-task {
+	position: relative;
+	left: 20px;
+	height: 100px;
+	float: left;
+}
+
+.task-fields {
+	position: relative;
+	float: left;
+}
+
+.timecard-form {
+	width: 100%;
+}
+
+.add-task {
+	margin-top: 10px;
+}
+
+.select-task {
+	min-width: 115px;
 }
