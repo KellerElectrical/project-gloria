@@ -9,7 +9,10 @@ Time: <%= @timecard.get_clock %>
 
 	Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
 	<br/>
+	<div class="select-task-wrap-wrap">
+	<div class="select-task-wrap">
 	Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
+	</div>
 	<div class="task-fields">
 		<div class="fields">
 		<input type="text" name="task[hours]" placeholder="# Hours" size="9" class="task-hours-field" />
@@ -21,15 +24,23 @@ Time: <%= @timecard.get_clock %>
 	  <input type="hidden" name="task[user_id]" value="<%= current_user.id %>"/>
 	  <br/>
   	</div>
-  <button class="add-task">Add Task</button>
+  <button class="addsdfdtask" type="button">Add Task</button>
   <br/>
+
   </div>
+  </div>
+
   <br/>
-  <button class="add-job">Add Job</button>
+  <br/>
+  <br/>
+	<br/>
+	<br/>
+  <button class="add-job" type="button">Add Job</button>
 	<br/>
 
 
 	<br/>
+
 	<input type="submit" value="Submit"/>
 <% end %>
 </div>

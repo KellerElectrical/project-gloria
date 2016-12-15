@@ -37,7 +37,8 @@ $(document).ready(function() {
 
 	var add_btn = $(".add-task")[0];
 	add_btn.addEventListener('click', function() {
-
+		var thing = $(".select-task-wrap-wrap").clone();
+		thing.insertAfter($(".select-task-wrap-wrap")[0]);
 	}, false);
 
 
