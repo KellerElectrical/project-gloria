@@ -15,6 +15,7 @@
 
 	<b><%= tc.created_at.strftime("%F %T") %></b><br/>
 	Clock: <%= tc.get_clock %><br/>
+	Team Members: <%= tc.team_members %><br/>
 
 	<% tc.tasks.each do |actual| %>
 		<div class="actual">
@@ -31,7 +32,6 @@
 				<% u = User.find(actual.user_id) %>
 			<% end %>
 
-			Posted by: <%= u.nil? ? "" : u.email %>
 			</p>
 		</div>
 	<% end %>

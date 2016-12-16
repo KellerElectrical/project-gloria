@@ -1,0 +1,47 @@
+<h1>All Timecards</h1>
+<br/>
+<% @users.each do |user| %>
+
+	<h3><%= user.email %></h3>
+	<% user.timecards.each do |tc| %>
+		<b><%= tc.created_at.strftime("%A, %B %e") %></b><br/>
+		<% if tc.tasks.empty? %>
+		<ul><li>Timecard not saved</li></ul>
+		<% end %>
+
+		Clock: <%= tc.get_clock %><br/>
+		Team Members: <%= tc.team_members %><br/><br/>
+
+		<% tc.tasks.each do |actual| %>
+			<div class="actual">
+			<p>
+				<% job = Job.find(actual.job_id) %>
+				<% unless job.nil? %>
+					Job <%= job.job_number %><br/>
+				<% end %>
+				<% task = Task.find(actual.bidtask_id) %>
+				<% unless task.nil? %>
+					<%= task.name %><br/>
+				<% end %>
+				Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
+				Hours: <span class="actlhrs"><%= actual.hours %></span>,
+				Comments: <%= actual.comments.nil? ? "None" : actual.comments %>
+
+				</p>
+			</div>
+			<br/>
+		<% end %>
+		<br/>
+		<br/>
+
+	<% end %>
+	<% if user.timecards.empty? %>
+	None
+	<% end %>
+	<br/>
+	<br/>
+
+<% end %>
+<br/>
+<br/>
+<br/>

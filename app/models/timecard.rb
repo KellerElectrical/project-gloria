@@ -13,4 +13,9 @@ class Timecard < ApplicationRecord
 		return 0 if self.stop_time.nil?
 		(Time.at(self.stop_time.time - self.created_at.time) + 30.minutes).beginning_of_hour.gmtime.strftime("%H").to_i
 	end
+
+	def num_members
+		return 1 if self.team_members.nil?
+		self.team_members.split(",").size
+	end
 end

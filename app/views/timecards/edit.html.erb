@@ -1,6 +1,11 @@
 <h3>Finish Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
-Time: <%= @timecard.get_clock %>
+Time: <%= @timecard.get_clock %><br/>
+Team Members: <%= @timecard.team_members %>
 <br/>
+<br/>
+Enter the total number of hours put into each Job/Task by all team members.
+<br/>
+(Should sum up to <span class="sum-total-rounded"><%= @timecard.get_rounded_hours * @timecard.num_members %></span> hours)
 <br/>
 <br/>
 <div class="timecard-form">
@@ -26,7 +31,6 @@ Time: <%= @timecard.get_clock %>
 			  <input type="hidden" name="timecard[task_attrs][][user_id]" value="<%= current_user.id %>"/>
 			  <br/>
 		  	</div>
-		  <br/>
 
 		  </div>
 	  </div>
@@ -34,8 +38,6 @@ Time: <%= @timecard.get_clock %>
 
 	  <br/>
 	  <br/>
-	  <br/>
-		<br/>
 
 	</div>
 	  <button class="add-job" type="button">Add Additional Job</button>
@@ -44,6 +46,9 @@ Time: <%= @timecard.get_clock %>
 
 	<br/>
 
-	<input type="submit" value="Submit"/>
+	<input type="button" class="submit-timecard" value="Submit"/>
+	<input type="submit" style="display: none;">
 <% end %>
 </div>
+<br/>
+<br/>

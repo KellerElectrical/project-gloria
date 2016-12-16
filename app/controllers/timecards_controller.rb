@@ -5,6 +5,11 @@ class TimecardsController < ApplicationController
 		render :show
 	end
 
+	def index
+		@users = User.all.select{|u| !u.confirmed_at.nil? }
+		render :index
+	end
+
 	def new
 		timecard = current_user.get_todays_timecard
 		if !timecard.nil? && timecard.tasks.empty?
@@ -36,16 +41,18 @@ class TimecardsController < ApplicationController
 		@timecard = Timecard.find(params[:id])
 		
 		if params[:stop] == "true"
-			@timecard.update_attributes({stop_time: DateTime.now})
+			members = params.require(:timecard).require("team_members").join(",")
+			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
 			redirect_to edit_timecard_url(@timecard)
 		else
 			timecard_params_array.each do |param|
 				new_actual = Task.new(permit_task param)
+				new_actual.hours *= @timecard.num_members
 				if new_actual.save
 					TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
 				else
 					redirect_to edit_timecard_url(@timecard)
-					break
+					return
 				end
 			end
 			redirect_to new_timecard_url

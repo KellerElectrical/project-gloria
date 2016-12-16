@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
 	resources :jobs, only: [:new, :show, :create, :index, :destroy]
 	resources :tasks, only: [:create, :destroy, :update]
-	resources :timecards, except: [:index, :destroy]
+	resources :timecards, except: [:destroy]
 
 	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
 

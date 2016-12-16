@@ -2,9 +2,23 @@
 
 Current time: <span class="current-time" onload="updateClock(); setInterval('updateClock()', 1000 )"><%= @timecard.get_clock %></span>
 
+<br/>
+<br/>
+<br/>
+<p><b>Team Members</b></p>
+Enter at least one:<br/>
+
 <% if @timecard.stop_time.nil? %>
 	<%= form_for @timecard do |f| %>
 		<input type="hidden" name="stop" value="true"/>
-		<input type="submit" value="Stop"/>
+		<div class="member-wrap">
+			<input type="text" name="timecard[team_members][]" placeholder="First Name Last Name" %><br/>
+		</div>
+		<button type="button" class="add-member">Add Team Member</button>
+		<br/>
+		<br/>
+		<input type="button" class="stop-button" value="Stop and Submit"/>
 	<% end %>
 <% end %>
+<br/>
+<br/>
