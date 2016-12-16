@@ -51,7 +51,7 @@ $(document).ready(function() {
 	if ($(".timecard-form").length > 0) {
 
 		var select_click = function(e) {
-				$(".submit-timecard").append("asdf");
+				$(".submit-timecard").after("asdf");
 		    var job_id = e.target.value;
 		    var job_div = $(e.target.parentElement.parentElement);
 		    var urljobs = "/jobs/" + job_id + "/get_tasks";
@@ -75,7 +75,7 @@ $(document).ready(function() {
 						    var task_div = $(e.target.parentElement.parentElement.parentElement);
 						    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
 						    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", sel_task.firstChild.data);
-							}, false);
+							}, true);
 			    	}
 		    	}
 		    });
@@ -99,7 +99,7 @@ $(document).ready(function() {
 			for (var j = 0; j < len; j++) {
 				var sel_job = element.find("select.select-job option")[j];
 				
-				sel_job.addEventListener('click', select_click, false);
+				sel_job.addEventListener('click', select_click, true);
 			}
 		};
 		add_job_listeners($(".timecard-form"));
