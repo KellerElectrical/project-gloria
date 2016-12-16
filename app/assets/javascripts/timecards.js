@@ -7,7 +7,7 @@ $(document).ready(function() {
 		if ($("span.current-time").length > 0) {
 			if (clock.attr("value") == "" || clock.attr("value") == undefined) {
 				var currentTime = new Date();
-				var d = new Date("2016-12-15T" + clock[0].firstChild.data);
+				var d = new Date("2016-12-15T" + clock[0].innerText);
 				var new_d = new Date("2016-12-15T"+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
 				var t = new_d - d - 1000;
 				var seconds = Math.floor( (t/1000) % 60 );
@@ -21,7 +21,7 @@ $(document).ready(function() {
 			var seconds = Math.floor( (t/1000) % 60 );
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
-		  clock[0].firstChild.nodeValue = "" + hours + ":" + minutes + ":" + seconds;
+		  clock[0].innerText = "" + hours + ":" + minutes + ":" + seconds;
 		}
 	};
 
@@ -51,6 +51,7 @@ $(document).ready(function() {
 	if ($(".timecard-form").length > 0) {
 
 		var select_click = function(e) {
+				$(".submit-timecard").append("asdf");
 		    var job_id = e.target.value;
 		    var job_div = $(e.target.parentElement.parentElement);
 		    var urljobs = "/jobs/" + job_id + "/get_tasks";
