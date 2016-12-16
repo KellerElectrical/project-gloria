@@ -34,6 +34,7 @@ class TimecardsController < ApplicationController
 
 	def update
 		@timecard = Timecard.find(params[:id])
+		fail
 		if params[:stop] == "true"
 			@timecard.update_attributes({stop_time: DateTime.now})
 			redirect_to edit_timecard_url(@timecard)

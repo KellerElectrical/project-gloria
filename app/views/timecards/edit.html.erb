@@ -4,7 +4,7 @@ Time: <%= @timecard.get_clock %>
 <br/>
 <br/>
 <div class="timecard-form">
-<%= form_for @actual do |f| %>
+<%= form_for @timecard do |f| %>
 	<div class="select-job-wrap-wrap">
 	<div class="select-job-wrap">
 		Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
@@ -17,7 +17,7 @@ Time: <%= @timecard.get_clock %>
 				<div class="fields">
 				<input type="hidden" name="timecard[task_attrs][][task_id]" value="">
 				<input type="text" name="timecard[task_attrs][][hours]" placeholder="# Hours" size="9" class="task-hours-field" />
-			  <input type="text" name="task[quantity]" placeholder="Quantity" class="quantity-field" />
+			  <input type="text" name="timecard[task_attrs][][quantity]" placeholder="Quantity" class="quantity-field" />
 			  <input type="hidden" name="timecard[task_attrs][][quantity_units]" value="units" />
 			  <br/>
 			  <input type="text" name="timecard[task_attrs][][comments]" placeholder="Comments" class="comment-field" />
