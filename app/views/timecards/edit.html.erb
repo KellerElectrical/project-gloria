@@ -5,39 +5,41 @@ Time: <%= @timecard.get_clock %>
 <br/>
 <div class="timecard-form">
 <%= form_for @actual do |f| %>
-	<input type="hidden" name="timecard[task_id][]" value="">
+	<div class="select-job-wrap-wrap">
+	<div class="select-job-wrap">
+		Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
+		<br/>
+		<div class="select-task-wrap-wrap" id="select-">
+			<div class="select-task-wrap">
+			Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
+			</div>
+			<div class="task-fields">
+				<div class="fields">
+				<input type="hidden" name="timecard[task_attrs][][task_id]" value="">
+				<input type="text" name="timecard[task_attrs][][hours]" placeholder="# Hours" size="9" class="task-hours-field" />
+			  <input type="text" name="task[quantity]" placeholder="Quantity" class="quantity-field" />
+			  <input type="hidden" name="timecard[task_attrs][][quantity_units]" value="units" />
+			  <br/>
+			  <input type="text" name="timecard[task_attrs][][comments]" placeholder="Comments" class="comment-field" />
+			  <input type="hidden" name="timecard[task_attrs][][job_id]" value=""/>
+			  <input type="hidden" name="timecard[task_attrs][][user_id]" value="<%= current_user.id %>"/>
+			  <br/>
+		  	</div>
+		  <br/>
 
-	Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
-	<br/>
-	<div class="select-task-wrap-wrap">
-	<div class="select-task-wrap">
-	Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
+		  </div>
+	  </div>
+		  <button class="add-task" type="button">Add Additional Task</button>
+
+	  <br/>
+	  <br/>
+	  <br/>
+		<br/>
+
 	</div>
-	<div class="task-fields">
-		<div class="fields">
-		<input type="text" name="task[hours]" placeholder="# Hours" size="9" class="task-hours-field" />
-	  <input type="text" name="task[quantity]" placeholder="Quantity" class="quantity-field" />
-	  <input type="hidden" name="task[quantity_units]" value="units" />
-	  <br/>
-	  <input type="text" name="task[comments]" placeholder="Comments" class="comment-field" />
-	  <input type="hidden" name="task[job_id]" value=""/>
-	  <input type="hidden" name="task[user_id]" value="<%= current_user.id %>"/>
-	  <br/>
-  	</div>
-  <button class="addsdfdtask" type="button">Add Task</button>
-  <br/>
-
+	  <button class="add-job" type="button">Add Additional Job</button>
   </div>
-  </div>
-
-  <br/>
-  <br/>
-  <br/>
-	<br/>
-	<br/>
-  <button class="add-job" type="button">Add Job</button>
-	<br/>
-
+<br/>
 
 	<br/>
 

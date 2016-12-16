@@ -2,6 +2,7 @@ class Timecard < ApplicationRecord
 	belongs_to :user
 	has_many :timecard_joins
 	has_many :tasks, through: :timecard_joins
+	accepts_nested_attributes_for :tasks
 
 	def get_clock
 		stoptime = (self.stop_time.nil? ? Time.now : self.stop_time.time)
