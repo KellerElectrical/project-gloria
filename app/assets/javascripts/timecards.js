@@ -101,10 +101,10 @@ $(document).ready(function() {
 				var sel_job = element.find("select.select-job option")[j];
 				
 				sel_job.addEventListener('click', select_click, true);
-				element.find("select.select-job").addEventListener('select', function() {
+				element.find("select.select-job")[0].addEventListener('select', function() {
 					$(".submit-timecard.").after("fdsa");
 				});
-				element.find("select.select-job").addEventListener('change', function() {
+				element.find("select.select-job")[0].addEventListener('change', function() {
 					$(".submit-timecard.").after("jkl");
 				});
 			}
