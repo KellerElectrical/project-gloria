@@ -102,10 +102,10 @@ $(document).ready(function() {
 				
 				sel_job.addEventListener('click', select_click, true);
 				element.find("select.select-job")[0].addEventListener('select', function() {
-					$(".submit-timecard.").after("fdsa");
+					$(".submit-timecard").after("fdsa");
 				});
 				element.find("select.select-job")[0].addEventListener('change', function() {
-					$(".submit-timecard.").after("jkl");
+					$(".submit-timecard").after("jkl");
 				});
 			}
 		};
