@@ -94,12 +94,19 @@ $(document).ready(function() {
 				}, false);
 			}
 		};
+
 		var add_job_listeners = function(element) {
 			var len = element.find("select.select-job option").length;
 			for (var j = 0; j < len; j++) {
 				var sel_job = element.find("select.select-job option")[j];
 				
 				sel_job.addEventListener('click', select_click, true);
+				element.find("select.select-job").addEventListener('select', function() {
+					$(".submit-timecard.").after("fdsa");
+				});
+				element.find("select.select-job").addEventListener('change', function() {
+					$(".submit-timecard.").after("jkl");
+				});
 			}
 		};
 		add_job_listeners($(".timecard-form"));
