@@ -34,21 +34,34 @@ class TimecardsController < ApplicationController
 
 	def update
 		@timecard = Timecard.find(params[:id])
-		fail
+		
 		if params[:stop] == "true"
 			@timecard.update_attributes({stop_time: DateTime.now})
 			redirect_to edit_timecard_url(@timecard)
 		else
-			task = Task.where(id: params[:timecard][:task_ids]).first
-			# TODO: redesign edit page to allow multiple actuals posting
-			new_actual = task.actual_tasks.create(task_params)
-				#join task to timecard
-			TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
-
+			timecard_params_array.each do |param|
+				new_actual = Task.new(permit_task param)
+				if new_actual.save
+					TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
+				else
+					redirect_to edit_timecard_url(@timecard)
+					break
+				end
+			end
+			redirect_to new_timecard_url
 		end
 	end
 
-	def task_params
-		params.require(:task).permit(:name, :hours, :quantity, :quantity_units, :user_id, :bidtask_id, :comments, :job_id)
+	private
+	def timecard_params_array
+		params.require(:timecard).transform_keys{|k| k = k.to_sym }.require(:task_attrs)
+	end
+
+	# params.require(:timecard).permit(:task_attrs).tap do |timecard_params|
+ #    timecard_params.require("task_attrs") # SAFER
+ #  end
+
+	def permit_task(param)
+		param.permit(:name, :hours, :quantity, :quantity_units, :user_id, :bidtask_id, :comments, :job_id)
 	end
 end

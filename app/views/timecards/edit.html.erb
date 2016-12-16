@@ -15,7 +15,8 @@ Time: <%= @timecard.get_clock %>
 			</div>
 			<div class="task-fields">
 				<div class="fields">
-				<input type="hidden" name="timecard[task_attrs][][task_id]" value="">
+				<input type="hidden" name="timecard[task_attrs][][name]" value="">
+				<input type="hidden" name="timecard[task_attrs][][bidtask_id]" value="">
 				<input type="text" name="timecard[task_attrs][][hours]" placeholder="# Hours" size="9" class="task-hours-field" />
 			  <input type="text" name="timecard[task_attrs][][quantity]" placeholder="Quantity" class="quantity-field" />
 			  <input type="hidden" name="timecard[task_attrs][][quantity_units]" value="units" />

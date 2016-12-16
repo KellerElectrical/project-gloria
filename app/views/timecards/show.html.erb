@@ -1,6 +1,6 @@
 <h3>Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
 
-Current time: <span class="current-time"><%= @timecard.get_clock %></span>
+Current time: <span class="current-time" onload="updateClock(); setInterval('updateClock()', 1000 )"><%= @timecard.get_clock %></span>
 
 <% if @timecard.stop_time.nil? %>
 	<%= form_for @timecard do |f| %>

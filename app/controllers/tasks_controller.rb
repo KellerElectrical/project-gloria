@@ -32,6 +32,7 @@ class TasksController < ApplicationController
 		redirect_to job_url(id)
 	end
 
+	private
 	def task_params
 		params.require(:task).permit(:name, :hours, :quantity, :quantity_units, :user_id, :bidtask_id, :comments)
 	end

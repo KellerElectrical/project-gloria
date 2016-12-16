@@ -1,6 +1,34 @@
 $(document).ready(function() {
 	console.log("sdfldsfd");
 
+	function updateClock() {
+		// show
+		var clock = $("span.current-time");
+		if ($("span.current-time").length > 0) {
+			if (clock.attr("value") == "" || clock.attr("value") == undefined) {
+				var currentTime = new Date();
+				var d = new Date("2016-12-15T" + clock[0].firstChild.data);
+				var new_d = new Date("2016-12-15T"+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
+				var t = new_d - d - 1000;
+				var seconds = Math.floor( (t/1000) % 60 );
+			  var minutes = Math.floor( (t/1000/60) % 60 );
+			  var hours = Math.floor( (t/(1000*60*60)) % 24 );
+				clock.attr("value", hours+":"+minutes+":"+seconds);
+			}
+			var currentTime = new Date();
+			var d = new Date("2016-12-15T" + clock.attr("value"));
+			var t = currentTime - d;
+			var seconds = Math.floor( (t/1000) % 60 );
+		  var minutes = Math.floor( (t/1000/60) % 60 );
+		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
+		  clock[0].firstChild.nodeValue = "" + hours + ":" + minutes + ":" + seconds;
+		}
+	}
+	if ($(".current-time").length > 0) {
+		var interval = setInterval(function() { updateClock() }, 1000);
+	}
+	if ($(".timecard-form").length > 0) {
+
 	var select_click = function(e) {
 	    var job_id = e.target.value;
 	    var job_div = $(e.target.parentElement.parentElement);
@@ -23,8 +51,8 @@ $(document).ready(function() {
 						sel_task.addEventListener('click', function(e) {
 					    var task_id = e.target.value;
 					    var task_div = $(e.target.parentElement.parentElement.parentElement);
-					    task_div.find("input[name='timecard[task_attrs][][task_id]']").attr("value", task_id);
-
+					    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
+					    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", sel_task.firstChild.data);
 						}, false);
 		    	}
 	    	}
@@ -39,8 +67,8 @@ $(document).ready(function() {
 				    
 		    var task_id = e.target.value;
 		    var task_div = $(e.target.parentElement.parentElement.parentElement);
-		    task_div.find("input[name='timecard[task_attrs][][task_id]']").attr("value", task_id);
-
+		    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
+		    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", sel_task.firstChild.data);
 			}, false);
 		}
 	};
@@ -85,6 +113,6 @@ $(document).ready(function() {
 		add_job_listeners(clone);
 	};
 	add_btn2.addEventListener('click', click_function2, false);
-
+	}
 
 });
