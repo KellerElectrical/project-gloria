@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	console.log("sdfldsfd");
+	var iphone = navigator.platform == "iPhone";
 
 	function updateClock() {
 		// show
@@ -51,9 +52,15 @@ $(document).ready(function() {
 	if ($(".timecard-form").length > 0) {
 
 		var select_click = function(e) {
-				$(".submit-timecard").after("asdf");
-		    var job_id = e.target.value;
-		    var job_div = $(e.target.parentElement.parentElement);
+				var e_target;
+				if (iphone) {
+					var idx = e.target.selectedIndex;
+					e_target = $(e.target).find("option")[e.target.selectedIndex];
+				} else {
+					e_target = e.target;
+				}
+		    var job_id = e_target.value;
+		    var job_div = $(e_target.parentElement.parentElement);
 		    var urljobs = "/jobs/" + job_id + "/get_tasks";
 		    $.get(urljobs, function(data) {
 		    	var htmlstr = "<option value='' ></option>";
@@ -71,10 +78,11 @@ $(document).ready(function() {
 
 			    		var sel_task = div.find("option")[l];
 							sel_task.addEventListener('click', function(e) {
+								var str = e.target.innerHTML;
 						    var task_id = e.target.value;
 						    var task_div = $(e.target.parentElement.parentElement.parentElement);
 						    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
-						    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", sel_task.firstChild.data);
+						    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
 							}, true);
 			    	}
 		    	}
@@ -86,11 +94,11 @@ $(document).ready(function() {
 			for (var l = 1; l < len; l++) {
 				var sel_task = element.find("select.select-task option")[l];
 				sel_task.addEventListener('click', function(e) {
-					    
+					var str = e.target.innerHTML;
 			    var task_id = e.target.value;
 			    var task_div = $(e.target.parentElement.parentElement.parentElement);
 			    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
-			    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", sel_task.firstChild.data);
+			    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
 				}, false);
 			}
 		};
@@ -98,15 +106,12 @@ $(document).ready(function() {
 		var add_job_listeners = function(element) {
 			var len = element.find("select.select-job option").length;
 			for (var j = 0; j < len; j++) {
-				var sel_job = element.find("select.select-job option")[j];
-				
-				sel_job.addEventListener('click', select_click, true);
-				sel_job.addEventListener('select', function() {
-					$(".submit-timecard").after("fdsa");
-				});
-				sel_job.addEventListener('change', function() {
-					$(".submit-timecard").after("jkl");
-				});
+				if (iphone) {
+					element.find("select.select-job")[0].addEventListener('change', select_click);
+				} else {
+					var sel_job = element.find("select.select-job option")[j];
+					sel_job.addEventListener('click', select_click, true);
+				}
 			}
 		};
 		add_job_listeners($(".timecard-form"));
