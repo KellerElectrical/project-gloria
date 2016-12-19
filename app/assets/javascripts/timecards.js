@@ -8,8 +8,8 @@ $(document).ready(function() {
 		if ($("span.current-time").length > 0) {
 			if (clock.attr("value") == "" || clock.attr("value") == undefined) {
 				var currentTime = new Date();
-				var d = new Date("2016-12-15T" + clock[0].innerText);
-				var new_d = new Date("2016-12-15T"+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
+				var d = new Date("2016/12/15 " + clock[0].innerText);
+				var new_d = new Date("2016/12/15 "+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
 				var t = new_d - d - 1000;
 				var seconds = Math.floor( (t/1000) % 60 );
 			  var minutes = Math.floor( (t/1000/60) % 60 );
@@ -17,7 +17,7 @@ $(document).ready(function() {
 				clock.attr("value", hours+":"+minutes+":"+seconds);
 			}
 			var currentTime = new Date();
-			var d = new Date("2016-12-15T" + clock.attr("value"));
+			var d = new Date("2016/12/15 " + clock.attr("value"));
 			clock.after("new d get hours: " + d.getHours());
 			var t = currentTime - d;
 			clock.after("new t get hours: " + t.getHours());
