@@ -17,7 +17,6 @@ $(document).ready(function() {
 				clock.attr("value", hours+":"+minutes+":"+seconds);
 			}
 			var currentTime = new Date();
-			clock.after("yo yo seconds " + currentTime.getSeconds() + "\n");
 			var d = new Date("2016/12/15 " + clock.attr("value"));
 			var t = currentTime - d;
 			var seconds = Math.floor( (t/1000) % 60 );
