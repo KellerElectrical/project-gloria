@@ -17,10 +17,10 @@ $(document).ready(function() {
 				clock.attr("value", hours+":"+minutes+":"+seconds);
 			}
 			var currentTime = new Date();
-			clock.after("asdf " + clock.attr("value") + "\n");
-			clock.after("current time hours: " + currentTime.hours);
 			var d = new Date("2016-12-15T" + clock.attr("value"));
+			clock.after("new d get hours: " + d.getHours());
 			var t = currentTime - d;
+			clock.after("new t get hours: " + t.getHours());
 			var seconds = Math.floor( (t/1000) % 60 );
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
@@ -149,30 +149,31 @@ $(document).ready(function() {
 			add_job_listeners(clone);
 		};
 		add_btn2.addEventListener('click', click_function2, false);
+		
+		var submitbtn = $("input.submit-timecard");
+		submitbtn[0].addEventListener('click', function() {
+			var sum = parseFloat($(".sum-total-rounded")[0].innerText);
+			var total = 0;
+			$(".timecard-form input.task-hours-field").each(function() {
+				if ($(this).val() == "") {
+					alert("Please finish filling out all of the hours fields.");
+				}
+				var num = parseFloat($(this).val());
+				if (isNaN(num)) {
+					alert("Please enter valid numbers.");
+				}
+				total += num;
+
+			});
+			if (total != sum) {
+				alert("Error - entered hours do not match total (clock time * number of members");
+			} else {
+				$(".timecard-form input[type='submit']").click();
+			}
+		}, false);
 	}
 
 
-	var submitbtn = $("input.submit-timecard");
-	submitbtn[0].addEventListener('click', function() {
-		var sum = parseFloat($(".sum-total-rounded")[0].innerText);
-		var total = 0;
-		$(".timecard-form input.task-hours-field").each(function() {
-			if ($(this).val() == "") {
-				alert("Please finish filling out all of the hours fields.");
-			}
-			var num = parseFloat($(this).val());
-			if (isNaN(num)) {
-				alert("Please enter valid numbers.");
-			}
-			total += num;
-
-		});
-		if (total != sum) {
-			alert("Error - entered hours do not match total (clock time * number of members");
-		} else {
-			$(".timecard-form input[type='submit']").click();
-		}
-	}, false);
 	
 
 });
