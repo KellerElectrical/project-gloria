@@ -18,9 +18,7 @@ $(document).ready(function() {
 			}
 			var currentTime = new Date();
 			var d = new Date("2016/12/15 " + clock.attr("value"));
-			clock.after("new d get hours: " + d.getHours());
 			var t = currentTime - d;
-			clock.after("new t get hours: " + t.getHours());
 			var seconds = Math.floor( (t/1000) % 60 );
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
