@@ -2,6 +2,14 @@ $(document).ready(function() {
 	console.log("sdfldsfd");
 	var iphone = navigator.platform == "iPhone";
 
+	function zeroPad(number) {
+		var num = number.toString();
+		if (num.length == 1) {
+			num = "0" + num;
+		}
+		return num;
+	}
+
 	function updateClock() {
 		// show
 		var clock = $("span.current-time");
@@ -22,7 +30,7 @@ $(document).ready(function() {
 			var seconds = Math.floor( (t/1000) % 60 );
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
-		  clock[0].innerText = "" + hours + ":" + minutes + ":" + seconds;
+		  clock[0].innerText = "" + zeroPad(hours) + ":" + zeroPad(minutes) + ":" + zeroPad(seconds);
 		}
 	};
 
