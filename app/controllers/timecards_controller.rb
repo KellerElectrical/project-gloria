@@ -43,11 +43,16 @@ class TimecardsController < ApplicationController
 		@timecard = Timecard.find(params[:id])
 
 		if params[:stop] == "true"
-			members = params.require(:timecard).require("team_members").join(",")
+			members = params.require(:timecard).transform_keys{|k| k = k.to_sym }require(:team_members).join(",")
 			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
 			redirect_to edit_timecard_url(@timecard)
 		else
+			puts "logging"
+			puts "..."
+			puts "size: #{timecard_params_array.size}"
 			timecard_params_array.each do |param|
+				param.each{|k, v| print "k:#{k},v:#{v} "}
+				puts ""
 				new_actual = Task.new(permit_task param)
 				new_actual.hours *= @timecard.num_members
 				if new_actual.save
