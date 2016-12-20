@@ -23,6 +23,8 @@ $(document).ready(function() {
 			  var minutes = Math.floor( (t/1000/60) % 60 );
 			  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 				clock.attr("value", hours+":"+minutes+":"+seconds);
+				clock.after("shold be zero: " + d.getHours() + "\n");
+				clock.after("shold be >zero: " + new_d.getHours() + "\n");
 			}
 			var currentTime = new Date();
 			var d = new Date("2016/12/15 " + clock.attr("value"));
