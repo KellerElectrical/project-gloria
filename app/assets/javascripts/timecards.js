@@ -16,26 +16,26 @@ $(document).ready(function() {
 		if ($("span.current-time").length > 0) {
 			if (clock.attr("value") == "" || clock.attr("value") == undefined) {
 				var currentTime = new Date();
-				var d = new Date("2016/12/15 " + clock[0].innerText);
+				var d = new Date("2016/12/10 " + clock[0].innerText);
 				var new_d = new Date("2016/12/15 "+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
 				var t = new_d - d - 1000;
 				var seconds = Math.floor( (t/1000) % 60 );
 			  var minutes = Math.floor( (t/1000/60) % 60 );
 			  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 				clock.attr("value", hours+":"+minutes+":"+seconds);
-				clock.after("shold be zero: " + d.getHours() + "\n");
-				clock.after("shold be >zero: " + new_d.getHours() + "\n");
+				clock.after("orig clock 0 inner text: " + clock[0].innerText + "\n");
 			}
 			var currentTime = new Date();
-			var d = new Date("2016/12/15 " + clock.attr("value"));
-			var t = currentTime - d;
+			var new_d = new Date("2016/12/15 "+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
+			var d = new Date("2016/12/10 " + clock.attr("value"));
+			var t = new_d - d;
 			var seconds = Math.floor( (t/1000) % 60 );
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 		  clock[0].innerText = "" + zeroPad(hours) + ":" + zeroPad(minutes) + ":" + zeroPad(seconds);
-		  clock.after("clock atr val: " + clock.attr("value") + "\n");
-		  clock.after("t hrs: " + t.getHours() + "\n");
-		  clock.after("d hrs: " + d.getHours() + '\n');
+		  // clock.after("clock atr val: " + clock.attr("value") + "\n");
+		  // clock.after("t hrs: " + t.getHours() + "\n");
+		  // clock.after("d hrs: " + d.getHours() + '\n');
 		}
 	};
 
