@@ -115,16 +115,6 @@ $(document).ready(function() {
 
 		};
 		var add_task_listeners = function(element) {
-							var sel_task = element.find("select.select-task option")[l];
-				sel_task.addEventListener('click', function(e) {
-					var str = e.target.innerHTML;
-			    var task_id = e.target.value;
-			    var task_div = $(e.target.parentElement.parentElement.parentElement);
-			    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
-			    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
-				}, false);
-			}
-
 			if (iphone) {
 	    	div.addEventListener('change', function(e) {
 					var idx = e.target.selectedIndex;
