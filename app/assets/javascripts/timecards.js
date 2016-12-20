@@ -31,10 +31,11 @@ $(document).ready(function() {
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 		  clock[0].innerText = "" + zeroPad(hours) + ":" + zeroPad(minutes) + ":" + zeroPad(seconds);
+		  clock.after("hours: " + zeroPad(hours) + "\n");
 		}
 	};
 
-	if ($("input.stop-button").length > 0) {
+	if ($("input.stop-button").length > 0) {				Aa``````````````````````````````````````````````aaaaaa`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 		var input = $("input.stop-button");
 
 		input[0].addEventListener('click', function() {
