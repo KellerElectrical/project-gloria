@@ -35,7 +35,7 @@ $(document).ready(function() {
 		}
 	};
 
-	if ($("input.stop-button").length > 0) {				Aa``````````````````````````````````````````````aaaaaa`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+	if ($("input.stop-button").length > 0) {
 		var input = $("input.stop-button");
 
 		input[0].addEventListener('click', function() {
