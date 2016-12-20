@@ -43,7 +43,7 @@ class TimecardsController < ApplicationController
 		@timecard = Timecard.find(params[:id])
 
 		if params[:stop] == "true"
-			members = params.require(:timecard).transform_keys{|k| k = k.to_sym }require(:team_members).join(",")
+			members = params.require(:timecard).require("team_members").join(",")
 			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
 			redirect_to edit_timecard_url(@timecard)
 		else
