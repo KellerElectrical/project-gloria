@@ -23,7 +23,6 @@ $(document).ready(function() {
 			  var minutes = Math.floor( (t/1000/60) % 60 );
 			  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 				clock.attr("value", hours+":"+minutes+":"+seconds);
-				clock.after("orig clock 0 inner text: " + clock[0].innerText + "\n");
 			}
 			var currentTime = new Date();
 			var new_d = new Date("2016/12/15 "+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds());
@@ -87,25 +86,36 @@ $(document).ready(function() {
 		    	for (var m = 0; m < len; m++) {
 		    		var div = $(job_div.find("select.select-task")[m]);
 			    	div.parent().parent().find("input[name='timecard[task_attrs][][job_id]']").attr("value", job_id);
-			    	for (var l = 1; l < data.length + 1; l++) {
 
-			    		var sel_task = div.find("option")[l];
-							sel_task.addEventListener('click', function(e) {
-								var str = e.target.innerHTML;
-						    var task_id = e.target.value;
-						    var task_div = $(e.target.parentElement.parentElement.parentElement);
+						if (iphone) {
+				    	div.addEventListener('change', function(e) {
+									var idx = e.target.selectedIndex;
+									var etarget = $(e.target).find("option")[idx];
+								var str = etarget.innerHTML;
+						    var task_id = etarget.value;
+						    var task_div = $(etarget.parentElement.parentElement.parentElement);
 						    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
 						    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
-							}, true);
-			    	}
+				    	});
+					  } else {	
+				    	for (var l = 1; l < data.length + 1; l++) {
+
+				    		var sel_task = div.find("option")[l];
+								sel_task.addEventListener('click', function(e) {
+									var str = e.target.innerHTML;
+							    var task_id = e.target.value;
+							    var task_div = $(e.target.parentElement.parentElement.parentElement);
+							    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
+							    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
+								}, true);
+				    	}
+					  }
 		    	}
 		    });
 
 		};
 		var add_task_listeners = function(element) {
-			var len = element.find("select.select-task option").length;
-			for (var l = 1; l < len; l++) {
-				var sel_task = element.find("select.select-task option")[l];
+							var sel_task = element.find("select.select-task option")[l];
 				sel_task.addEventListener('click', function(e) {
 					var str = e.target.innerHTML;
 			    var task_id = e.target.value;
@@ -114,6 +124,31 @@ $(document).ready(function() {
 			    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
 				}, false);
 			}
+
+			if (iphone) {
+	    	div.addEventListener('change', function(e) {
+					var idx = e.target.selectedIndex;
+					var etarget = $(e.target).find("option")[idx];
+					var str = etarget.innerHTML;
+			    var task_id = etarget.value;
+			    var task_div = $(etarget.parentElement.parentElement.parentElement);
+			    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
+			    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
+	    	});
+		  } else {	
+		  	var len = element.find("select.select-task option").length;
+				for (var l = 1; l < len; l++) {
+
+	    		var sel_task = div.find("option")[l];
+					sel_task.addEventListener('click', function(e) {
+						var str = e.target.innerHTML;
+				    var task_id = e.target.value;
+				    var task_div = $(e.target.parentElement.parentElement.parentElement);
+				    task_div.find("input[name='timecard[task_attrs][][bidtask_id]']").attr("value", task_id);
+				    task_div.find("input[name='timecard[task_attrs][][name]']").attr("value", str);
+					}, true);
+	    	}
+		  }
 		};
 
 		var add_job_listeners = function(element) {
