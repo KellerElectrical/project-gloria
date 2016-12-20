@@ -85,6 +85,7 @@ $(document).ready(function() {
 		    	var len = job_div.find("select.select-task").length;
 		    	for (var m = 0; m < len; m++) {
 		    		var div = $(job_div.find("select.select-task")[m]);
+
 			    	div.parent().parent().find("input[name='timecard[task_attrs][][job_id]']").attr("value", job_id);
 
 						if (iphone) {
@@ -116,9 +117,8 @@ $(document).ready(function() {
 		};
 		var add_task_listeners = function(element) {
 			var div = element.find("select.select-task");
-
 			if (iphone) {
-	    	div.addEventListener('change', function(e) {
+	    	div[0].addEventListener('change', function(e) {
 					var idx = e.target.selectedIndex;
 					var etarget = $(e.target).find("option")[idx];
 					var str = etarget.innerHTML;
