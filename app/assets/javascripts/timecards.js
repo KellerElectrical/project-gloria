@@ -31,7 +31,7 @@ $(document).ready(function() {
 		  var minutes = Math.floor( (t/1000/60) % 60 );
 		  var hours = Math.floor( (t/(1000*60*60)) % 24 );
 		  clock[0].innerText = "" + zeroPad(hours) + ":" + zeroPad(minutes) + ":" + zeroPad(seconds);
-		  clock.after("hours: " + zeroPad(hours) + "\n");
+		  clock.after("hours: " + hours + "\n");
 		}
 	};
 
