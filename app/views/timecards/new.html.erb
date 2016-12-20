@@ -13,7 +13,7 @@
 <% @timecards.each do |tc| %>
 	<% next if tc.stop_time.nil? || tc.tasks.empty? %>
 
-	<b><%= tc.created_at.strftime("%F %T") %></b><br/>
+	<b><%= zone(tc.created_at).strftime("%F %T") %></b><br/>
 	Clock: <%= tc.get_clock %><br/>
 	Team Members: <%= tc.team_members %><br/>
 

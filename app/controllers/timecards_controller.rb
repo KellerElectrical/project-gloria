@@ -1,4 +1,6 @@
 class TimecardsController < ApplicationController
+	before_action :restrict_to_admin, only: [:index]
+
 
 	def show
 		@timecard = Timecard.find(params[:id])
@@ -39,7 +41,7 @@ class TimecardsController < ApplicationController
 
 	def update
 		@timecard = Timecard.find(params[:id])
-		
+
 		if params[:stop] == "true"
 			members = params.require(:timecard).require("team_members").join(",")
 			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
@@ -62,6 +64,10 @@ class TimecardsController < ApplicationController
 	private
 	def timecard_params_array
 		params.require(:timecard).transform_keys{|k| k = k.to_sym }.require(:task_attrs)
+	end
+
+	def restrict_to_admin
+		redirect_to root_url unless current_user.admin?
 	end
 
 	# params.require(:timecard).permit(:task_attrs).tap do |timecard_params|

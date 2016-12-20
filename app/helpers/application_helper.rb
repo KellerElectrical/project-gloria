@@ -10,4 +10,8 @@ module ApplicationHelper
   	units = ["units", "feet", "inches", "miles"]
   end
 
+  def zone(datetime)
+  	datetime.in_time_zone("Arizona")
+  end
+
 end

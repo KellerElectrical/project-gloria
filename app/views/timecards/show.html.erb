@@ -1,9 +1,9 @@
-<h3>Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
+<h3>Timecard for <%= zone(@timecard.created_at).strftime("%A, %B %e - %r")%></h3>
 
 Current time: <span class="current-time" onload="updateClock(); setInterval('updateClock()', 1000 )"><%= @timecard.get_clock %></span>
 
 <br/>
-<br/>
+<br/>	
 <br/>
 <p><b>Team Members</b></p>
 Enter at least one:<br/>

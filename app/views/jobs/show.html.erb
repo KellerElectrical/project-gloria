@@ -46,7 +46,7 @@
 				Hours: <span class="actlhrs"><%= actual.hours %></span>,
 				Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
 				Units: <%= actual.quantity_units %>,
-				Date: <%= actual.created_at.strftime("%F %T") %>,
+				Date: <%= zone(actual.created_at).strftime("%F %T") %>,
 				Comments: <%= actual.comments.nil? ? "None" : actual.comments %>, 
 				<% u = nil %>
 				<% unless actual.user_id.nil? %>

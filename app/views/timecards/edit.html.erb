@@ -1,4 +1,4 @@
-<h3>Finish Timecard for <%= @timecard.created_at.strftime("%A, %B %e")%></h3>
+<h3>Finish Timecard for <%= zone(@timecard.created_at).strftime("%A, %B %e")%></h3>
 Time: <%= @timecard.get_clock %><br/>
 Team Members: <%= @timecard.team_members %>
 <br/>

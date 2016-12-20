@@ -5,7 +5,7 @@
 
 	<h3><%= user.email %></h3>
 	<% user.timecards.each do |tc| %>
-		<b><%= tc.created_at.strftime("%A, %B %e") %></b><br/>
+		<b><%= zone(tc.created_at).strftime("%A, %B %e") %></b><br/>
 		<% if tc.tasks.empty? %>
 		<ul><li>Timecard not saved</li></ul>
 		<% end %>
