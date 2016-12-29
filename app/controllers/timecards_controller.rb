@@ -29,6 +29,7 @@ class TimecardsController < ApplicationController
 	end
 
 	def edit
+		redirect_to root_url and return unless user_signed_in?
 		@timecard = Timecard.find(params[:id])
 		if @timecard.user_id != current_user.id
 			redirect_to root_url 
@@ -47,14 +48,8 @@ class TimecardsController < ApplicationController
 			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
 			redirect_to edit_timecard_url(@timecard)
 		else
-			puts "logging"
-			puts "..."
-			puts "size: #{timecard_params_array.size}"
 			timecard_params_array.each do |param|
-				param.each{|k, v| print "k:#{k},v:#{v} "}
-				puts ""
 				new_actual = Task.new(permit_task param)
-				new_actual.hours *= @timecard.num_members
 				if new_actual.save
 					TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
 				else
