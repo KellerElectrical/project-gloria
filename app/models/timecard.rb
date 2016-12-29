@@ -11,7 +11,9 @@ class Timecard < ApplicationRecord
 
 	def get_rounded_hours
 		return 0 if self.stop_time.nil?
-		(Time.at(self.stop_time.time - self.created_at.time) + 30.minutes).beginning_of_hour.gmtime.strftime("%H").to_i
+		t = Time.at(self.stop_time.time - self.created_at.time).gmtime
+		decimal = t.hour + t.min / 60.0
+		(decimal * 4).round / 4.0
 	end
 
 	def num_members
