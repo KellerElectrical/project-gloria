@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-
+	before_action :authenticate!, only: [:create, :update, :destroy]
 
 	def create
 		@job = Job.find(params[:task][:job_id])
