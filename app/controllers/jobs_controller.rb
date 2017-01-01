@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-	before_action :authenticate!, only: [:show, :new, :create, :get_tasks]
+	before_action :check_signed_in, only: [:show, :new, :create, :get_tasks]
 
 	def show
 		@job = Job.find(params[:id])
