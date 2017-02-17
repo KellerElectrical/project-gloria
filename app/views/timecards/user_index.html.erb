@@ -4,34 +4,41 @@
 
 	<% @user.timecards.each do |tc| %>
 		<b><%= zone(tc.created_at).strftime("%A, %B %e") %></b><br/>
+
+		Cost Code: <%= tc.cost_code.nil? || tc.cost_code.empty? ? "N/A" : tc.cost_code %><br>
+		Clock: <%= tc.get_clock %> <%= tc.stop_time.nil? ? "(In Progress)" : "" %><br/>
+		Team Members: <%= tc.team_members %><br/>
+
 		<% if tc.tasks.empty? %>
 		<ul><li>No tasks entered</li></ul>
 		<% end %>
-
-		Cost Code: <%= tc.cost_code.nil? || tc.cost_code.empty? ? "N/A" : tc.cost_code %><br>
-		Clock: <%= tc.get_clock %><br/>
-		Team Members: <%= tc.team_members %><br/><br/>
-
 		<% tc.tasks.each do |actual| %>
-			<div class="actual">
-			<p>
-				<% job = Job.find(actual.job_id) %>
-				<% unless job.nil? %>
-					Job <%= job.job_number %><br/>
-				<% end %>
+		<div class="actual">
+		<p>
+			<% task = actual %>
+			<% if actual.bidtask_id != 0 %>
+
 				<% task = Task.find(actual.bidtask_id) %>
 				<% unless task.nil? %>
-					<%= task.name %><br/>
+					<b><%= task.name %></b><br/>
+					Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
 				<% end %>
-				Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
-				Hours: <span class="actlhrs"><%= actual.hours %></span>,
-				Comments: <%= actual.comments.nil? ? "None" : actual.comments %>
+			<% else %>
+				<% job = Job.find(task.job_id) %>
+				<% unless job.nil? %>
+					Job: <%= job.name %><br/>
+				<% end %>
+			<% end %>
+			Hours: <span class="actlhrs"><%= actual.hours %></span>,
+			Comments: <%= actual.comments.nil? ? "None" : actual.comments %>,
+			<% u = nil %>
+			<% unless actual.user_id.nil? %>
+				<% u = User.find(actual.user_id) %>
+			<% end %>
 
-				</p>
-			</div>
-			<br/>
-		<% end %>
-		<br/>
+			</p>
+		</div>
+	<% end %>
 		<br/>
 
 	<% end %>
