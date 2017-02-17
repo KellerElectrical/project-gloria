@@ -31,7 +31,7 @@
 		<%= user.email %><br/>
 		Last signed in at: <%= user.current_sign_in_at.strftime("%A, %B %e - %r") %><br/>
 		IP: <%= user.current_sign_in_ip.to_s %><br>
-		<% loc = user.user_locations.first %>
+		<% loc = user.user_locations.last %>
 		Location: 
 		<% if loc.nil? %>
 			<% user.user_locations.create! %>

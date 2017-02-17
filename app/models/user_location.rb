@@ -5,7 +5,7 @@ class UserLocation < ApplicationRecord
 	# Tell geocoder which method returns a geocodable address
 	geocoded_by :ip_str
 	reverse_geocoded_by :latitude, :longitude, address: :address
-	after_validation :geocode, :reverse_geocode
+	after_validation :geocode, :reverse_geocode, :save
 
 	before_validation :check_user_exists
 
