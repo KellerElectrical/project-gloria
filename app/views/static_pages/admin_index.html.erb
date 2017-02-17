@@ -28,17 +28,22 @@
 
 	<b>All Users</b><br><br>
 	<% User.all.each do |user| %>
-		<%= user.email %><br/>
+		<%= user.email %> - <%= link_to "Timecards", user_timecards_url(user), method: :get %><br/>
 		Last signed in at: <%= zone(user.current_sign_in_at).strftime("%A, %B %e - %r") %><br/>
 		IP: <%= user.current_sign_in_ip.to_s %><br>
 		<% loc = user.user_locations.last %>
 		Location: 
 		<% if loc.nil? %>
+			
+			<!-- <br>
 			<% user.user_locations.create! %>
+			 -->
 			Not found
 		<% else %>
-			<% loc.geocode if loc.latitude.nil? %>
-			<% loc.reverse_geocode if loc.address.nil? %>
+		<!-- <br>
+		< loc.geocode if loc.latitude.nil? %>
+		< loc.reverse_geocode if loc.address.nil? %>
+		 -->	
 			<%= loc.address.nil? ? "#{loc.latitude}, #{loc.longitude}" : loc.address %>
 		<% end %>
 		<br/><br/>

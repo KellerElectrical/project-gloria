@@ -9,11 +9,11 @@
 <br/>
 <br/>	
 <br/>
+<% if @timecard.stop_time.nil? %>
+	<%= form_for @timecard do |f| %>
 <p><b>Team Members</b></p>
 Enter at least one:<br/>
 
-<% if @timecard.stop_time.nil? %>
-	<%= form_for @timecard do |f| %>
 		<input type="hidden" name="stop" value="true"/>
 		<div class="member-wrap">
 			<input type="text" name="timecard[team_members][]" placeholder="First Name Last Name" %><br/>

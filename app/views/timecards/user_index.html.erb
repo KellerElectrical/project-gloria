@@ -1,16 +1,14 @@
 <%= link_to "Back", root_url, method: :get %><br/>
-<h1>All Timecards</h1>
+<h1>All Timecards for <%= @user.email %></h1>
 <br/>
-<% @users.each do |user| %>
 
-	<h3><%= user.email %></h3>
-	<% user.timecards.each do |tc| %>
+	<% @user.timecards.each do |tc| %>
 		<b><%= zone(tc.created_at).strftime("%A, %B %e") %></b><br/>
 		<% if tc.tasks.empty? %>
-		<ul><li>Timecard not saved</li></ul>
+		<ul><li>No tasks entered</li></ul>
 		<% end %>
 
-		Cost Code: <%= tc.cost_code.nil? || tc.cost_code.empty? ? "N/A" : tc.cost_code %><br/>
+		Cost Code: <%= tc.cost_code.nil? || tc.cost_code.empty? ? "N/A" : tc.cost_code %><br>
 		Clock: <%= tc.get_clock %><br/>
 		Team Members: <%= tc.team_members %><br/><br/>
 
@@ -37,13 +35,9 @@
 		<br/>
 
 	<% end %>
-	<% if user.timecards.empty? %>
+	<% if @user.timecards.empty? %>
 	None
 	<% end %>
-	<br/>
-	<br/>
-
-<% end %>
 <br/>
 <br/>
 <br/>

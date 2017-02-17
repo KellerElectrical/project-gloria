@@ -8,8 +8,17 @@ class TimecardsController < ApplicationController
 	end
 
 	def index
-		@users = User.all.select{|u| !u.confirmed_at.nil? }
-		render :index
+		if params[:user_id]
+			@user = User.find(params[:user_id])
+			if @user
+				render :user_index
+			else
+				redirect_to root_url
+			end
+		else
+			@users = User.all.select{|u| !u.confirmed_at.nil? }
+			render :index
+		end
 	end
 
 	def new

@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 	resources :tasks, only: [:create, :destroy, :update]
 	resources :timecards, except: [:destroy]
 
+	resources :user, only: [:show] do 
+		resources :timecards, only: [:index]
+	end
+
 	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
 	get 'timecards/:id/cost_code', to: 'timecards#cost_code', as: :cost_code
 end
