@@ -1,5 +1,5 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  after_database_authentication :locate_on_ip_change
+
   # GET /resource/confirmation/new
   # def new
   #   super
