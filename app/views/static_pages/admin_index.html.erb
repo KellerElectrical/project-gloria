@@ -34,10 +34,12 @@
 		<% loc = user.user_locations.first %>
 		Location: 
 		<% if loc.nil? %>
+			<% user.user_locations.create! %>
 			Not found
 		<% else %>
+			<% loc.geocode if loc.latitude.nil? %>
 			<%= loc.address.nil? ? "#{loc.latitude}, #{loc.longitude}" : loc.address %>
-			<% end %>
+		<% end %>
 		<br/><br/>
 	<% end %>
 
