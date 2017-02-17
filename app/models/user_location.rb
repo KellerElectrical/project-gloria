@@ -12,6 +12,6 @@ class UserLocation < ApplicationRecord
 	def check_user_exists
 		user = User.find(self.user_id)
 		return false if user.nil?
-		self.ip = user.current_sign_in_ip
+		self.ip = user.current_sign_in_ip.to_s
 	end
 end
