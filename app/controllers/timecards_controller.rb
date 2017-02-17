@@ -42,23 +42,50 @@ class TimecardsController < ApplicationController
 
 	def update
 		@timecard = Timecard.find(params[:id])
-
 		if params[:stop] == "true"
 			members = params.require(:timecard).require("team_members").join(",")
 			@timecard.update_attributes({stop_time: DateTime.now, team_members: members})
+			redirect_to cost_code_url(@timecard)
+
+		elsif params[:costcode] == "true"
+
+			@timecard.update_attributes({cost_code: params[:timecard][:cost_code]})
 			redirect_to edit_timecard_url(@timecard)
+
 		else
-			timecard_params_array.each do |param|
-				new_actual = Task.new(permit_task param)
+			if @timecard.cost_code == "Construction"
+
+				timecard_params_array.each do |param|
+					new_actual = Task.new(permit_task param)
+					if new_actual.save
+						TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
+					else
+						redirect_to edit_timecard_url(@timecard)
+						return
+					end
+				end
+				redirect_to new_timecard_url
+
+			else
+				parms = params.require(:timecard).transform_keys{|k| k = k.to_sym }.require(:job_attrs)[0]
+				new_job = Job.create({name: parms[:name]})
+				new_actual = Task.new({job_id: new_job.id, comments: parms[:comments], name: new_job.name, user_id: parms[:user_id], hours: parms[:hours]})
 				if new_actual.save
 					TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
+
 				else
 					redirect_to edit_timecard_url(@timecard)
 					return
 				end
+
+				redirect_to new_timecard_url
 			end
-			redirect_to new_timecard_url
 		end
+	end
+
+	def cost_code
+		@timecard = Timecard.find(params[:id])
+		render :cost_code
 	end
 
 	private
@@ -77,4 +104,5 @@ class TimecardsController < ApplicationController
 	def permit_task(param)
 		param.permit(:name, :hours, :quantity, :quantity_units, :user_id, :bidtask_id, :comments, :job_id)
 	end
+
 end

@@ -1,7 +1,11 @@
 
 <% admin = current_user.admin? %>
 <%= link_to "Back", root_url, method: :get %>
+<% if @job.job_number.nil? %>
+<h1><%= @job.name %></h1>
+<% else %>
 <h1>Job <%= "#{@job.job_number}" %></h1>
+<% end %>
 <p>Tasks</p>
 <ul>
 <% if @job.tasks.empty? %>

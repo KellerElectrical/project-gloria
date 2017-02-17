@@ -20,11 +20,20 @@
 	<% tc.tasks.each do |actual| %>
 		<div class="actual">
 		<p>
-			<% task = Task.find(actual.bidtask_id) %>
-			<% unless task.nil? %>
-				<b><%= task.name %></b><br/>
+			<% task = actual %>
+			<% if actual.bidtask_id != 0 %>
+
+				<% task = Task.find(actual.bidtask_id) %>
+				<% unless task.nil? %>
+					<b><%= task.name %></b><br/>
+					Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
+				<% end %>
+			<% else %>
+				<% job = Job.find(task.job_id) %>
+				<% unless job.nil? %>
+					Job: <%= job.name %><br/>
+				<% end %>
 			<% end %>
-			Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
 			Hours: <span class="actlhrs"><%= actual.hours %></span>,
 			Comments: <%= actual.comments.nil? ? "None" : actual.comments %>,
 			<% u = nil %>

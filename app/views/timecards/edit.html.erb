@@ -3,54 +3,77 @@ Time: <%= @timecard.get_clock %><br/>
 Team Members: <%= @timecard.team_members %>
 <br/>
 <br/>
-Enter the total number of hours put into each Job/Task by all team members.
+<% if !@timecard.cost_code.nil? && @timecard.cost_code == "Construction" %>
+Enter the total number of hours put into each Job by all team members.
 <br/>
 (Should sum up to <span class="sum-total-rounded"><%= @timecard.get_rounded_hours * @timecard.num_members %></span> hours)
 <br/>
 <br/>
-<div class="timecard-form">
-<%= form_for @timecard do |f| %>
-	<div class="select-job-wrap-wrap">
-	<div class="select-job-wrap">
-		Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
-		<br/>
-		<div class="select-task-wrap-wrap" id="select-">
-			<div class="select-task-wrap">
-			Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
-			</div>
-			<br/>
-			<br/>
-			<div class="task-fields">
-				<div class="fields">
-				<input type="hidden" name="timecard[task_attrs][][name]" value="">
-				<input type="hidden" name="timecard[task_attrs][][bidtask_id]" value="">
-				<input type="text" name="timecard[task_attrs][][hours]" placeholder="# Hours" size="9" class="task-hours-field" />
-			  <input type="text" name="timecard[task_attrs][][quantity]" placeholder="Quantity" class="quantity-field" />
-			  <input type="hidden" name="timecard[task_attrs][][quantity_units]" value="units" />
-			  <br/>
-			  <input type="text" name="timecard[task_attrs][][comments]" placeholder="Comments" class="comment-field" />
-			  <input type="hidden" name="timecard[task_attrs][][job_id]" value=""/>
-			  <input type="hidden" name="timecard[task_attrs][][user_id]" value="<%= current_user.id %>"/>
-			  <br/>
-		  	</div>
 
+	<div class="timecard-form">
+	<%= form_for @timecard do |f| %>
+		<div class="select-job-wrap-wrap">
+		<div class="select-job-wrap">
+			Select Job <%= select(:actual, :job_id, @jobs.map{|j| [j.get_name, j.id] }, {include_blank: true}, { class: 'select-job' }) %>
+			<br/>
+			<div class="select-task-wrap-wrap" id="select-">
+				<div class="select-task-wrap">
+				Select Task <select class="select-task" id=""><option value="<%="&nbsp;"*26%>"></option></select>
+				</div>
+				<br/>
+				<br/>
+				<div class="task-fields">
+					<div class="fields">
+					<input type="hidden" name="timecard[task_attrs][][name]" value="">
+					<input type="hidden" name="timecard[task_attrs][][bidtask_id]" value="">
+					<input type="text" name="timecard[task_attrs][][hours]" placeholder="# Hours" size="9" class="task-hours-field" />
+				  <input type="text" name="timecard[task_attrs][][quantity]" placeholder="Quantity" class="quantity-field" />
+				  <input type="hidden" name="timecard[task_attrs][][quantity_units]" value="units" />
+				  <br/>
+				  <input type="text" name="timecard[task_attrs][][comments]" placeholder="Comments" class="comment-field" />
+				  <input type="hidden" name="timecard[task_attrs][][job_id]" value=""/>
+				  <input type="hidden" name="timecard[task_attrs][][user_id]" value="<%= current_user.id %>"/>
+				  <br/>
+			  	</div>
+
+			  </div>
 		  </div>
+			  <button class="add-task" type="button">Add Additional Task</button>
+
+		  <br/>
+		  <br/>
+
+		</div>
+		  <button class="add-job" type="button">Add Additional Job</button>
 	  </div>
-		  <button class="add-task" type="button">Add Additional Task</button>
-
-	  <br/>
-	  <br/>
-
-	</div>
-	  <button class="add-job" type="button">Add Additional Job</button>
-  </div>
-<br/>
-
 	<br/>
 
-	<input type="button" class="submit-timecard" value="Submit"/>
-	<input type="submit" style="display: none;">
-<% end %>
+		<br/>
+
+		<input type="button" class="submit-timecard" value="Submit"/>
+		<input type="submit" style="display: none;">
+	<% end %>
 </div>
+
+
+<% else %>
+	
+	<%= form_for @timecard do |f| %>
+		
+		Enter Job # or Description:<br/>
+		<input type="text" name="timecard[job_attrs][][name]" value="">
+		<br>
+	  <input type="text" name="timecard[job_attrs][][comments]" placeholder="Comments" class="comment-field" /><br>
+	  <input type="hidden" name="timecard[job_attrs][][user_id]" value="<%= current_user.id %>"/><br>
+	  <input type="hidden" name="timecard[job_attrs][][hours]" value="<%= @timecard.get_rounded_hours * @timecard.num_members %>"/>
+	  <br/>
+
+
+		<br/>
+
+		<input type="submit" value="Submit"/>
+	<% end %>
+
+<% end %>
 <br/>
 <br/>

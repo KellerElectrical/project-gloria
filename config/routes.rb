@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 	root to: 'static_pages#index'
 
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'users/sessions', confirmations: 'users/confirmations' }
   devise_scope :user do
 	  get 'sign_in', to: 'devise/sessions#new'
 		get 'sign_up', to: 'devise/registrations#new'
@@ -12,5 +12,5 @@ Rails.application.routes.draw do
 	resources :timecards, except: [:destroy]
 
 	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
-
+	get 'timecards/:id/cost_code', to: 'timecards#cost_code', as: :cost_code
 end

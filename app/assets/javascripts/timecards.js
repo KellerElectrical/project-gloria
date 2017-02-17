@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	console.log("sdfldsfd");
+
 	var iphone = navigator.platform == "iPhone";
 
 	function zeroPad(number) {

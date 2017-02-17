@@ -35,6 +35,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem "binding_of_caller"
   gem "better_errors"
+  gem "pry-rails"
 end
 
 group :development do
@@ -51,6 +52,8 @@ group :production do
   gem 'newrelic_rpm'
   gem 'rails_12factor'
 end
+
+gem 'geocoder'
 
 gem 'devise'
 

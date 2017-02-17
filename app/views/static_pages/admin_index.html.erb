@@ -8,7 +8,11 @@
 
 	<ul>
 	<% @jobs.each do |job| %>
-		<li><%= link_to "Job #{job.job_number}", job_url(job), method: :get %></li>
+		<% jobname = job.name %>
+		<% if !job.job_number.nil? %>
+		<% jobname = "Job #{job.job_number}" %>
+		<% end%>
+		<li><%= link_to jobname, job_url(job), method: :get %></li>
 	<% end %>
 	</ul>
 <% end %>
@@ -17,7 +21,29 @@
 <br/>
 <%= link_to "View All Timecards", timecards_url, method: :get %>
 <br/>
+<br/>
+
+
+<br/>
+
+	<b>All Users</b><br><br>
+	<% User.all.each do |user| %>
+		<%= user.email %><br/>
+		Last signed in at: <%= user.current_sign_in_at.strftime("%A, %B %e - %r") %><br/>
+		IP: <%= user.current_sign_in_ip.to_s %><br>
+		<% loc = user.user_locations.first %>
+		Location: 
+		<% if loc.nil? %>
+			Not found
+		<% else %>
+			<%= loc.address.nil? ? "#{loc.latitude}, #{loc.longitude}" : loc.address %>
+			<% end %>
+		<br/><br/>
+	<% end %>
+
+<br/>
+
 
 <br/>
 <br/>
-<%= button_to "Sign Out", destroy_user_session_url, method: :delete %>
+<%= button_to "Sign Out", destroy_user_session_url, method: :delete %><br/>

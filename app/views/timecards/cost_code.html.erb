@@ -1,0 +1,15 @@
+<h3>Timecard for <%= zone(@timecard.created_at).strftime("%A, %B %e - %r")%></h3>
+
+Select which cost code:<br/><br/>
+<%= form_for @timecard do |f| %>
+	<input type="hidden" name="costcode" value="true"/>
+	<div class="costcode-wrap">
+		<input name="timecard[cost_code]" type="radio" value="Construction"/>&nbsp;&nbsp;Construction<br/>
+		<input name="timecard[cost_code]" type="radio" value="Field Service"/>&nbsp;&nbsp;Field Service<br/>
+		<input name="timecard[cost_code]" type="radio" value="Mechanical Service"/>&nbsp;&nbsp;Mechanical Service<br/>
+	</div>
+	<br/>
+	<br/>
+	<input type="submit" value="Submit"/>
+
+<% end %>
