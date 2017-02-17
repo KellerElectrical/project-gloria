@@ -29,7 +29,7 @@
 	<b>All Users</b><br><br>
 	<% User.all.each do |user| %>
 		<%= user.email %><br/>
-		Last signed in at: <%= user.current_sign_in_at.strftime("%A, %B %e - %r") %><br/>
+		Last signed in at: <%= zone(user.current_sign_in_at).strftime("%A, %B %e - %r") %><br/>
 		IP: <%= user.current_sign_in_ip.to_s %><br>
 		<% loc = user.user_locations.last %>
 		Location: 
@@ -38,6 +38,7 @@
 			Not found
 		<% else %>
 			<% loc.geocode if loc.latitude.nil? %>
+			<% loc.reverse_geocode if loc.address.nil? %>
 			<%= loc.address.nil? ? "#{loc.latitude}, #{loc.longitude}" : loc.address %>
 		<% end %>
 		<br/><br/>
