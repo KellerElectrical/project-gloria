@@ -35,15 +35,14 @@
 		Location: 
 		<% if loc.nil? %>
 			
-			<!-- <br>
+			<br>
 			<% user.user_locations.create! %>
-			 -->
 			Not found
 		<% else %>
-		<!-- <br>
-		< loc.geocode if loc.latitude.nil? %>
-		< loc.reverse_geocode if loc.address.nil? %>
-		 -->	
+		<br>
+		<% loc.geocode if loc.latitude.nil? %>
+		<% loc.reverse_geocode if loc.address.nil? %>
+			
 			<%= loc.address.nil? ? "#{loc.latitude}, #{loc.longitude}" : loc.address %>
 		<% end %>
 		<br/><br/>
