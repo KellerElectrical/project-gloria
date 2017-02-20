@@ -21,10 +21,12 @@ class User < ApplicationRecord
   	}).first
   end
 
-
+  def requires_locate?
+    (self.current_sign_in_ip != self.last_sign_in_ip && self.user_locations.last.created_at < self.current_sign_in_at) || self.user_locations.empty?
+  end
 
   def locate_on_ip_change
-    if self.current_sign_in_ip != self.last_sign_in_ip || self.user_locations.empty?
+    if requires_locate?
       self.user_locations.create!
     end
   end

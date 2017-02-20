@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 		resources :timecards, only: [:index]
 	end
 
+	resource :user_locations, only: [:update]
+
 	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
 	get 'timecards/:id/cost_code', to: 'timecards#cost_code', as: :cost_code
 end
