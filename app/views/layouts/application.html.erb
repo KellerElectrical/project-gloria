@@ -7,7 +7,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}") %>
+    <%= javascript_include_tag params[:controller] %>
 
     <%= javascript_include_tag "user_share_location" if user_signed_in? && current_user.requires_locate? %>
 
