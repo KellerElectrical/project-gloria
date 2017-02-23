@@ -96,7 +96,7 @@ class TimecardsController < ApplicationController
 		user = User.find(params[:user_id])
 		params[:emails].split(",").each do |email|
 			# only send individually for now TODO: allow multiple
-			TimecardMailer.send_weeks(email, user, [get_user_week(user, DateTime.strptime(params[:day], '%Y-%m-%d %H:%M:%S %Z'))])
+			TimecardMailer.send_weeks(email, user, [get_user_week(user, DateTime.strptime(params[:day], '%Y-%m-%d %H:%M:%S %Z'))]).deliver_now
 		end
 		redirect_to user_weeks_url(user)
 	end
