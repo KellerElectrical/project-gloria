@@ -21,6 +21,14 @@ class User < ApplicationRecord
   	}).first
   end
 
+  def get_weeks_timecard(date)
+    sunday = date.beginning_of_week - 1.day
+    Timecard.order(created_at: :desc).where({
+      user_id: self.id,
+      created_at: sunday...(sunday + 7.days)
+    })
+  end
+
   def requires_locate?
     (self.current_sign_in_ip != self.last_sign_in_ip && self.user_locations.last.created_at < self.current_sign_in_at) || self.user_locations.empty?
   end

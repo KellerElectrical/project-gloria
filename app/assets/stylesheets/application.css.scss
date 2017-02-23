@@ -68,3 +68,17 @@
 .actual {
 	margin-left: 30px;
 }
+
+.table-wrap {
+	position: relative;
+	width: 80%;
+	th.job-name {
+		width: 180px;
+	}
+	th.cost-code {
+		width: 100px;
+	}
+	.total {
+		border-left: 1px solid #DDDDDD;
+	}
+}

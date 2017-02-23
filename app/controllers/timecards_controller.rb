@@ -77,7 +77,7 @@ class TimecardsController < ApplicationController
 
 			else
 				parms = params.require(:timecard).transform_keys{|k| k = k.to_sym }.require(:job_attrs)[0]
-				new_job = Job.create({name: parms[:name]})
+				new_job = Job.find_or_create_by_name(parms[:name])
 				new_actual = Task.new({job_id: new_job.id, comments: parms[:comments], name: new_job.name, user_id: parms[:user_id], hours: parms[:hours]})
 				if new_actual.save
 					TimecardJoin.create({timecard_id: @timecard.id, task_id: new_actual.id})
@@ -89,6 +89,61 @@ class TimecardsController < ApplicationController
 
 				redirect_to new_timecard_url
 			end
+		end
+	end
+
+	def send_week_email
+		user = User.find(params[:user_id])
+		params[:emails].split(",").each do |email|
+			# only send individually for now TODO: allow multiple
+			TimecardMailer.send_weeks(email, user, [get_user_week(user, DateTime.strptime(params[:day], '%Y-%m-%d %H:%M:%S %Z'))])
+		end
+	end
+
+	def get_user_week(user, day)
+		timecards = @user.get_weeks_timecard(day)
+		if timecards.empty?
+			return nil
+		else
+			# Organize by {job1: [1.5, 0, ... 0], job2: [0, 0... 5] }
+			hsh = {}
+			timecards.each do |tc|
+				tc.tasks.each do |task|
+					next if task.job_id == 0
+					job = Job.find(task.job_id)
+					key = job.name || job.job_number.to_s
+					hsh[key] ||= ([tc.cost_code || "N/A"] + [0] * 7)
+					hsh[key][tc.created_at.wday + 1] += task.hours
+				end
+			end
+
+			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total]
+			hsh.each do |jobname, arr|
+					row = []
+					row << jobname
+					row << arr[0]
+					row.concat(arr[1..7])
+					row << arr[1..7].sum
+					rows << row
+			end
+			return nil if rows.empty?
+			{day: day, rows: rows}
+		end
+	end
+
+	def show_user_weeks
+		@user = User.find params[:user_id]
+		unless @user.nil? || @user.timecards.empty?
+			day = @user.timecards.last.created_at
+			@weeks = []
+			wk = get_user_week(@user, day)
+			until wk.nil?
+				@weeks << wk
+				wk = get_user_week(@user, day -= 1.week)
+			end
+			render :show_weeks
+		else
+			redirect_to root_url
 		end
 	end
 

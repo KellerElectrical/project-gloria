@@ -1,0 +1,25 @@
+
+<br>
+<div class="table-wrap">
+<table class="table">
+	<tr>
+		<th class="job-name">Job Name</th>
+		<th class="cost-code">Cost Code</th>
+		<% start_dt = (datetime.beginning_of_week - 1.day).utc %>
+		<% 7.times do |i| %>
+			<% dt = start_dt + i.days %>
+			<th><%= dt.strftime("%a %-m/%-d") %></th>
+
+		<% end %>
+		<th class="total">Total</th>
+	</tr>
+	<% rows.each do |row| %>
+		<tr>
+			<% row.each_with_index do |data, i| %>
+				<td class="<%= i == row.size - 1 ? "total" : nil %>"><%= data %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+</div>

@@ -13,7 +13,10 @@ Rails.application.routes.draw do
 
 	resources :user, only: [:show] do 
 		resources :timecards, only: [:index]
+		get 'weeks', to: 'timecards#show_user_weeks', as: :weeks
 	end
+
+	post 'send_week_email', to: 'timecards#send_week_email', as: :send_week_email
 
 	resource :user_locations, only: [:update]
 
