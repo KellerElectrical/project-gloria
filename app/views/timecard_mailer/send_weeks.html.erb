@@ -9,7 +9,7 @@
     <% @weeks.each do |wk| %>
       <br>
       <br>
-      <%= render "show_user_week", datetime: wk[:day], rows: wk[:rows] %>
+      <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows] %>
     <% end %>
 
   </body>
