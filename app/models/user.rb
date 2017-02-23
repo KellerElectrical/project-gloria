@@ -39,7 +39,7 @@ class User < ApplicationRecord
     end
   end
 
-  def after_database_authentication
-    locate_on_ip_change
-  end
+  # def after_database_authentication
+  #   locate_on_ip_change
+  # end
 end
