@@ -1,6 +1,6 @@
 class TimecardsController < ApplicationController
-	before_action :restrict_to_admin, only: [:index]
 
+	before_action :restrict_to_admin, only: [:index]
 
 	def show
 		@timecard = Timecard.find(params[:id])
@@ -92,13 +92,20 @@ class TimecardsController < ApplicationController
 		end
 	end
 
-	def send_week_email
-		user = User.find(params[:user_id])
-		params[:emails].split(",").each do |email|
-			# only send individually for now TODO: allow multiple
-			TimecardMailer.send_weeks(email, user, [get_user_week(user, DateTime.strptime(params[:day], '%Y-%m-%d %H:%M:%S %Z'))]).deliver_now
+	def show_user_weeks
+		@user = User.find params[:user_id]
+		unless @user.nil? || @user.timecards.empty?
+			day = zone(@user.timecards.last.created_at).beginning_of_week - 1.day
+			@weeks = []
+			wk = get_user_week(@user, day)
+			until wk.nil?
+				@weeks << wk
+				wk = get_user_week(@user, day -= 1.week)
+			end
+			render :show_weeks
+		else
+			redirect_to root_url
 		end
-		redirect_to user_weeks_url(user)
 	end
 
 	def get_user_week(user, day)
@@ -117,7 +124,6 @@ class TimecardsController < ApplicationController
 					hsh[key][tc.created_at.wday + 1] += task.hours
 				end
 			end
-
 			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total]
 			hsh.each do |jobname, arr|
 					row = []
@@ -132,20 +138,26 @@ class TimecardsController < ApplicationController
 		end
 	end
 
-	def show_user_weeks
-		@user = User.find params[:user_id]
-		unless @user.nil? || @user.timecards.empty?
-			day = @user.timecards.last.created_at
-			@weeks = []
-			wk = get_user_week(@user, day)
-			until wk.nil?
-				@weeks << wk
-				wk = get_user_week(@user, day -= 1.week)
-			end
-			render :show_weeks
-		else
-			redirect_to root_url
+	def send_week_email
+		user = User.find(params[:user_id])
+		params[:emails].split(",").each do |email|
+			wk = get_user_week(user, datetime_from_param(params[:day]))
+			# only send individually for now TODO: allow multiple
+			TimecardMailer.send_weeks(email, user, [wk]).deliver_now
 		end
+		redirect_to user_weeks_url(user)
+	end
+
+	def download_week_csv
+		user = User.find(params[:user_id])
+		sunday = datetime_from_param(params[:day])
+		timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
+		fn = "#{user.email.split("@").first}_#{timestr}.csv"
+		file = generate_csv(user, sunday, fn)
+		File.open(fn, 'r') do |f|
+			send_data(f.read, filename: fn, type: "application/csv")
+		end
+	  File.delete fn
 	end
 
 	def cost_code
@@ -169,5 +181,25 @@ class TimecardsController < ApplicationController
 	def permit_task(param)
 		param.permit(:name, :hours, :quantity, :quantity_units, :user_id, :bidtask_id, :comments, :job_id)
 	end
+
+	def datetime_from_param(param)
+		DateTime.strptime(param, '%Y-%m-%d %H:%M:%S %Z')
+	end
+
+  def generate_csv(user, sunday, fn)
+    CSV.open(fn, "wb") do |csv|
+    	header = ["Job Name", "Cost Code"]
+    	7.times do |i|
+				dt = sunday + i.days
+				header << dt.strftime("%a %-m/%-d")
+    	end
+    	header << "Total"
+    	csv << header
+
+    	wk = get_user_week(user, sunday)
+    	wk[:rows].each {|row|	csv << row }
+    	csv
+    end
+  end
 
 end

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 	end
 
 	post 'send_week_email', to: 'timecards#send_week_email', as: :send_week_email
+	get 'download_week_csv', to: 'timecards#download_week_csv', as: :download_week_csv
 
 	resource :user_locations, only: [:update]
 

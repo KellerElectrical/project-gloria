@@ -5,9 +5,9 @@
 	<tr>
 		<th class="job-name">Job Name</th>
 		<th class="cost-code">Cost Code</th>
-		<% start_dt = (datetime.beginning_of_week - 1.day).utc %>
+
 		<% 7.times do |i| %>
-			<% dt = start_dt + i.days %>
+			<% dt = datetime + i.days %>
 			<th><%= dt.strftime("%a %-m/%-d") %></th>
 
 		<% end %>

@@ -10,10 +10,20 @@
 	<br>
 	<form method="POST" action="/send_week_email">
 		<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+		
 		<input type="text" placeholder="recipient 1, recipient 2, ..." name="emails">
 		<input type="hidden" name="user_id" value="<%= @user.id %>">
 		<input type="hidden" name="day" value="<%= wk[:day] %>">
 		<input type="submit" value="Send Email">
+	</form>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<form method="GET" action="/download_week_csv">
+		<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+		<input type="hidden" name="user_id" value="<%= @user.id %>">
+		<input type="hidden" name="day" value="<%= wk[:day] %>">
+		<input type="submit" value="Download CSV file">
 	</form>
 	<br>
 <% end %>
