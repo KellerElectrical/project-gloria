@@ -30,7 +30,7 @@ class User < ApplicationRecord
   end
 
   def requires_locate?
-    (self.current_sign_in_ip != self.last_sign_in_ip && (self.user_locations.last && self.user_locations.last.created_at < self.current_sign_in_at)) || self.user_locations.empty?
+    self.user_locations.empty? || (self.current_sign_in_ip != self.last_sign_in_ip) || self.user_locations.last.latitude.nil?
   end
 
   def locate_on_ip_change
