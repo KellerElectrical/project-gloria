@@ -95,7 +95,7 @@ class TimecardsController < ApplicationController
 	def show_user_weeks
 		@user = User.find params[:user_id]
 		unless @user.nil? || @user.timecards.empty?
-			day = zone(@user.timecards.last.created_at).beginning_of_week - 1.day
+			day = @user.timecards.last.created_at
 			@weeks = []
 			wk = get_user_week(@user, day)
 			until wk.nil?
