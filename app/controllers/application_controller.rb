@@ -11,4 +11,17 @@ class ApplicationController < ActionController::Base
   	datetime.in_time_zone("Arizona")
   end
 
+  def admin_db_clear
+  	if current_user.admin?
+  		Job.delete_all
+  		Task.delete_all
+  		Timecard.delete_all
+  		TimecardJoin.delete_all
+
+	  	respond_to do |format|
+	      format.json { render json: {"Success": "Successful"}, status: 200}
+	    end
+	  end
+  end
+
 end

@@ -9,7 +9,13 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag params[:controller] unless asset_exist?("#{params[:controller]}") %>
 
-    <%= javascript_include_tag "user_share_location" if user_signed_in? && current_user.requires_locate? %>
+    <% if params[:controller] == "static_pages" && current_user.admin? %>
+      <%= javascript_include_tag "validate_clear" %>
+    <% end %>
+
+    <% if user_signed_in? && current_user.requires_locate? %>
+      <%= javascript_include_tag "user_share_location" %>
+    <% end %>
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

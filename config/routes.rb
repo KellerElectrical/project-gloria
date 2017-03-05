@@ -23,4 +23,6 @@ Rails.application.routes.draw do
 
 	get 'jobs/:id/get_tasks', to: 'jobs#get_tasks'
 	get 'timecards/:id/cost_code', to: 'timecards#cost_code', as: :cost_code
+
+	delete 'admin_db_clear', to: 'application#admin_db_clear', as: :admin_db_clear
 end

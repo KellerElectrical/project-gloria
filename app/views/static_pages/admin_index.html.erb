@@ -6,7 +6,9 @@
 
 <p><b>Select Job #</b></p>
 <% if @jobs.empty? %>
+
 	<i>None</i>
+	<br/>
 <% else %>
 
 	<ul>
@@ -52,6 +54,17 @@
 
 <br/>
 
+<br/>
+<button class="validate-clear-btn">
+	Delete All Records
+</button>
+
+<form class="validate-clear-form" method="POST" action="/admin_db_clear">
+	<input type="hidden" name="_method" value="DELETE">	
+	<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+	<input type="submit" style="display: none;">
+</form>
 
 <br/>
 <br/>

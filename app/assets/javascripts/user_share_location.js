@@ -14,6 +14,9 @@ $(document).ready(function() {
 				success: function(response) {
 					console.log("Successfully updated user with address:" + response["address"]);
 				}
+				error: function(message) {
+					console.log("Unable to get user address.")
+				}
 			});
 		});
 
