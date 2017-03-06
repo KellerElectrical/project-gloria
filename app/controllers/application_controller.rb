@@ -24,4 +24,12 @@ class ApplicationController < ActionController::Base
 	  end
   end
 
+  def update_user_admin
+    if current_user.admin?
+      user = User.find(params[:id])
+      user.update_attributes(admin: (params[:user][:admin] == "1"))
+      redirect_to root_url
+    end
+	end
+
 end

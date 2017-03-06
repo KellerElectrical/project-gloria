@@ -34,6 +34,10 @@
 	<b>All Users</b><br><br>
 	<% User.all.each do |user| %>
 		<%= user.email %> - <%= link_to "Timecards", user_timecards_url(user), method: :get %><br/>
+		<%= form_for(user, url: update_user_admin_url(user)) do |f| %>
+			Admin <%= f.check_box "admin" %>
+			<input type="submit" value="Update">
+		<% end %>
 		<%= link_to "Weekly View", user_weeks_url(user), method: :get %><br/>
 		Last signed in at: <%= zone(user.current_sign_in_at).strftime("%A, %B %e - %r") %><br/>
 		IP: <%= user.current_sign_in_ip.to_s %><br>
