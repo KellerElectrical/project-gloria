@@ -6,20 +6,28 @@
 		<th class="job-name">Job Name</th>
 		<th class="cost-code">Cost Code</th>
 
+		<% sunday = datetime.beginning_of_week - 1.day %>
+
 		<% 7.times do |i| %>
-			<% dt = datetime + i.days %>
+			<% dt = sunday + i.days %>
 			<th><%= dt.strftime("%a %-m/%-d") %></th>
 
 		<% end %>
 		<th class="total">Total</th>
 	</tr>
+	<% sum_total = 0 %>
 	<% rows.each do |row| %>
 		<tr>
 			<% row.each_with_index do |data, i| %>
+				<% sum_total += data if i == (row.size - 1) %>
 				<td class="<%= i == row.size - 1 ? "total" : nil %>"><%= data %>
 				</td>
 			<% end %>
 		</tr>
 	<% end %>
+	<tr>
+		<%= "<td></td>" * 9 %>
+		<td class="total"><%= sum_total %></td>
+	</tr>
 </table>
 </div>
