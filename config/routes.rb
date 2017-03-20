@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 	resources :user, only: [:show] do 
 		resources :timecards, only: [:index]
 		get 'weeks', to: 'timecards#show_user_weeks', as: :weeks
+		get 'confirm_week', to: 'timecards#confirm_week', as: :confirm_week
 	end
 
 	post 'send_week_email', to: 'timecards#send_week_email', as: :send_week_email
@@ -26,4 +27,5 @@ Rails.application.routes.draw do
 
 	delete 'admin_db_clear', to: 'application#admin_db_clear', as: :admin_db_clear
 	patch 'user/:id', to: 'application#update_user_admin', as: :update_user_admin
+
 end

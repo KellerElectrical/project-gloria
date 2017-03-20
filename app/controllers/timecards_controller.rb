@@ -115,14 +115,14 @@ class TimecardsController < ApplicationController
 		if timecards.empty?
 			return nil
 		else
-			# Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: ""}, job2:  }
+			# Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: "", confirmed: }, job2:  }
 			hsh = {}
 			timecards.each do |tc|
 				tc.tasks.each do |task|
 					next if task.job_id == 0
 					job = Job.find(task.job_id)
 					key = job.name || job.job_number.to_s
-					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments}
+					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments, confirmed: tc.confirmed}
 					hsh[key][:totals][tc.created_at.wday] += task.hours
 				end
 			end
@@ -154,7 +154,7 @@ class TimecardsController < ApplicationController
 
 	def download_week_csv
 		if params[:user_id] == "all_users"
-			sunday = DateTime.now.beginning_of_week - 1.day
+			sunday = (DateTime.now - 2.days).beginning_of_week - 1.day
 			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
 			fn = "all_users_#{timestr}.csv"
 			file = generate_csv(User.order(:email), sunday, fn)
@@ -173,6 +173,16 @@ class TimecardsController < ApplicationController
 			end
 		  File.delete fn
 		end
+	end
+
+	def confirm_week
+		user = User.find(params[:id])
+		tc = user.get_weeks_timecard params[:day]
+		tc.each do |tc|
+			tc.confirmed = true
+			tc.save
+		end
+		render :confirmed
 	end
 
 	def cost_code

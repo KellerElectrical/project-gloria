@@ -1,7 +1,8 @@
 class TimecardMailer < ApplicationMailer
-	def send_weeks(email, user, weeks)
+	def send_weeks(email, user, weeks, confirm=false)
 		@user = user
 		@weeks = weeks
+    @confirm = confirm
     timestr = ""
     if weeks.last.nil? || weeks.first.nil?
       timestr = DateTime.now.strftime("%-m/%-d")
@@ -52,4 +53,10 @@ class TimecardMailer < ApplicationMailer
       csv
     end
   end
+
+  def send_confirm(email, sunday)
+
+  end
+
+
 end

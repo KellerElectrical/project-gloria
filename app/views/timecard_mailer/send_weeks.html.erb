@@ -4,12 +4,23 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
+    <% if @confirm %>
+    <h3>Click the link below to confirm this timecard:</h3>
+    <% else %>
     <h3>Employee Timecard for <%= @user.email %></h3>
+    <% end %>
     
     <% @weeks.each do |wk| %>
       <br>
       <br>
       <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows] %>
+    <% end %>
+
+    <% if @confirm %>
+      <br>
+      <br>
+      <%= link_to "Confirm", user_confirm_week_path(@user.id, day: @weeks[0][:day]) %>
+
     <% end %>
 
   </body>
