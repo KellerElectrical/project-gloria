@@ -8,7 +8,7 @@ class TimecardMailer < ApplicationMailer
 		mail(to: email, subject: "Timecards for #{user.email}, #{timestr}")
 	end
 
-  def send_all_weeks(email, weeks)
+  def send_all_weeks(email)
     @users = User.order(:email)
     @weeks = []
     @users.each do |user|
