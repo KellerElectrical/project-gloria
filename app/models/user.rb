@@ -29,6 +29,38 @@ class User < ApplicationRecord
     })
   end
 
+  def get_user_week(day)
+    timecards = self.get_weeks_timecard(day)
+    if timecards.empty?
+      return nil
+    else
+      # Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: ""}, job2:  }
+      hsh = {}
+      timecards.each do |tc|
+        tc.tasks.each do |task|
+          next if task.job_id == 0
+          job = Job.find(task.job_id)
+          key = job.name || job.job_number.to_s
+          hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments}
+          hsh[key][:totals][tc.created_at.wday] += task.hours
+        end
+      end
+      rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total, and comments]
+      hsh.each do |jobname, jobhash|
+          arr = jobhash[:totals]
+          row = []
+          row << jobname
+          row << jobhash[:costcode]
+          row.concat(arr[0..6])
+          row << arr[0..6].sum
+          row << jobhash[:comments]
+          rows << row
+      end
+      return nil if rows.empty?
+      {day: day, rows: rows}
+    end
+  end
+
   def requires_locate?
     self.user_locations.empty? || (self.current_sign_in_ip != self.last_sign_in_ip) || self.user_locations.last.latitude.nil?
   end

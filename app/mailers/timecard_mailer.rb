@@ -8,11 +8,11 @@ class TimecardMailer < ApplicationMailer
 		mail(to: email, subject: "Timecards for #{user.email}, #{timestr}")
 	end
 
-  def send_all_weeks(email)
+  def send_all_weeks(email, weeks)
     @users = User.order(:email)
     @weeks = []
     @users.each do |user|
-      @weeks << get_user_week(user, DateTime.now)
+      @weeks << user.get_user_week(DateTime.now)
     end
     start = weeks.last[:day]
     finish = weeks.first[:day] + 6.days
