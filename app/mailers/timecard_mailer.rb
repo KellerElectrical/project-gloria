@@ -17,7 +17,7 @@ class TimecardMailer < ApplicationMailer
     @users = User.order(:email)
     @weeks = []
     @users.each do |user|
-      @weeks << user.get_user_week(DateTime.now)
+      @weeks << user.get_user_week(DateTime.now - 2.days)
     end
     timestr = DateTime.now.strftime("%-m/%-d")
     mail(to: email, subject: "Timecards for all users, #{timestr}")
