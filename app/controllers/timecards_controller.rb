@@ -123,7 +123,7 @@ class TimecardsController < ApplicationController
 					job = Job.find(task.job_id)
 					key = job.name || job.job_number.to_s
 					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7}
-					hsh[key][:totals][tc.created_at.wday + 1] += task.hours
+					hsh[key][:totals][tc.created_at.wday] += task.hours
 				end
 			end
 			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total, and comments]
