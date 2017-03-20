@@ -9,10 +9,10 @@
       <% next if wk.nil? %>
       <h1>Employee Timecard for <%= user.email %></h1>
       
-        <br>
-        <br>
-        <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows] %>
-      <% end %>
+      <br>
+      <br>
+      <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows] %>
+
     <% end %>
 
   </body>
