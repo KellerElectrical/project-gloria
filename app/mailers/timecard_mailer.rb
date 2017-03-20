@@ -14,8 +14,8 @@ class TimecardMailer < ApplicationMailer
     @users.each do |user|
       @weeks << user.get_user_week(DateTime.now)
     end
-    start = weeks.last[:day]
-    finish = weeks.first[:day] + 6.days
+    start = @weeks.last[:day]
+    finish = @weeks.first[:day] + 6.days
     timestr = "#{start.strftime("%-m/%-d")}-#{finish.strftime("%-m/%-d")}"
     mail(to: email, subject: "Timecards for all users, #{timestr}")
   end
