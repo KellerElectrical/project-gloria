@@ -94,13 +94,15 @@ class TimecardsController < ApplicationController
 
 	def show_user_weeks
 		@user = User.find params[:user_id]
-		unless @user.nil? || @user.timecards.empty?
-			day = @user.timecards.last.created_at
+		unless @user.nil?
 			@weeks = []
-			wk = get_user_week(@user, day)
-			until wk.nil?
-				@weeks << wk
-				wk = get_user_week(@user, day -= 1.week)
+			unless @user.timecards.empty?
+				day = @user.timecards.last.created_at
+				wk = get_user_week(@user, day)
+				until day.month == 11 && day.year == 2016
+					@weeks << wk unless wk.nil?
+					wk = get_user_week(@user, day -= 1.week)
+				end
 			end
 			render :show_weeks
 		else
@@ -113,24 +115,26 @@ class TimecardsController < ApplicationController
 		if timecards.empty?
 			return nil
 		else
-			# Organize by {job1: [1.5, 0, ... 0], job2: [0, 0... 5] }
+			# Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: ""}, job2:  }
 			hsh = {}
 			timecards.each do |tc|
 				tc.tasks.each do |task|
 					next if task.job_id == 0
 					job = Job.find(task.job_id)
 					key = job.name || job.job_number.to_s
-					hsh[key] ||= ([tc.cost_code || "N/A"] + [0] * 7)
-					hsh[key][tc.created_at.wday + 1] += task.hours
+					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7}
+					hsh[key][:totals][tc.created_at.wday + 1] += task.hours
 				end
 			end
-			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total]
-			hsh.each do |jobname, arr|
+			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total, and comments]
+			hsh.each do |jobname, jobhash|
+					arr = jobhash[:totals]
 					row = []
 					row << jobname
-					row << arr[0]
-					row.concat(arr[1..7])
-					row << arr[1..7].sum
+					row << jobhash[:costcode]
+					row.concat(arr[0..6])
+					row << arr[0..6].sum
+					row << jobhash[:comments]
 					rows << row
 			end
 			return nil if rows.empty?
@@ -149,15 +153,27 @@ class TimecardsController < ApplicationController
 	end
 
 	def download_week_csv
-		user = User.find(params[:user_id])
-		sunday = datetime_from_param(params[:day])
-		timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
-		fn = "#{user.email.split("@").first}_#{timestr}.csv"
-		file = generate_csv(user, sunday, fn)
-		File.open(fn, 'r') do |f|
-			send_data(f.read, filename: fn, type: "application/csv")
+		if params[:user_id] == "all_users"
+			sunday = DateTime.now.beginning_of_week - 1.day
+			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
+			fn = "all_users_#{timestr}.csv"
+			file = generate_csv(User.order(:email), sunday, fn)
+			File.open(fn, 'r') do |f|
+				send_data(f.read, filename: fn, type: "application/csv")
+			end
+		  File.delete fn
+		else
+			fail
+			user = User.find(params[:user_id])
+			sunday = datetime_from_param(params[:day]).beginning_of_week - 1.day
+			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
+			fn = "#{user.email.split("@").first}_#{timestr}.csv"
+			file = generate_csv([user], sunday, fn)
+			File.open(fn, 'r') do |f|
+				send_data(f.read, filename: fn, type: "application/csv")
+			end
+		  File.delete fn
 		end
-	  File.delete fn
 	end
 
 	def cost_code
@@ -186,18 +202,25 @@ class TimecardsController < ApplicationController
 		DateTime.strptime(param, '%Y-%m-%d %H:%M:%S %Z')
 	end
 
-  def generate_csv(user, sunday, fn)
+  def generate_csv(users, sunday, fn)
     CSV.open(fn, "wb") do |csv|
-    	header = ["Job Name", "Cost Code"]
-    	7.times do |i|
-				dt = sunday + i.days
-				header << dt.strftime("%a %-m/%-d")
-    	end
-    	header << "Total"
-    	csv << header
+    	users.each do |user|
+    		csv << [user.email]
+	    	wk = get_user_week(user, sunday)
+	    	unless wk.nil?
+		    	header = ["Job Name", "Cost Code"]
+		    	7.times do |i|
+						dt = sunday + i.days
+						header << dt.strftime("%a %-m/%-d")
+		    	end
+		    	header << "Total"
+		    	header << "Comments"
+		    	csv << header
 
-    	wk = get_user_week(user, sunday)
-    	wk[:rows].each {|row|	csv << row }
+		    	wk[:rows].each {|row|	csv << row }
+	    	end
+	    	csv << [""]
+	    end
     	csv
     end
   end

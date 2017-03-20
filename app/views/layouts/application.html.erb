@@ -13,8 +13,9 @@
       <%= javascript_include_tag "validate_clear" %>
     <% end %>
 
-    <% if user_signed_in? && current_user.requires_locate? %>
+    <% if user_signed_in? && current_user.requires_locate? && session[:located].nil? %>
       <%= javascript_include_tag "user_share_location" %>
+      <% session[:located] = true %>
     <% end %>
 
     <!--Load the AJAX API-->

@@ -28,7 +28,13 @@
 <br/>
 <br/>
 
+<form method="GET" action="/download_week_csv">
+	<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
+	<input type="hidden" name="user_id" value="all_users">
+	<input type="submit" value="Download CSV file for all users (past 7 days)">
+</form>
+<br/>
 <br/>
 
 	<b>All Users</b><br><br>

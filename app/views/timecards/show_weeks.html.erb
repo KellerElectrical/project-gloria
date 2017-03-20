@@ -1,3 +1,4 @@
+<%= link_to "Back", root_url, method: :get %><br/>
 <h1>Employee Time Card</h1>
 
 <br>
@@ -26,6 +27,9 @@
 		<input type="submit" value="Download CSV file">
 	</form>
 	<br>
+<% end %>
+<% if @weeks.empty? %>
+	No Timecards
 <% end %>
 <br>
 <br>

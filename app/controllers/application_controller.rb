@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   		Task.delete_all
   		Timecard.delete_all
   		TimecardJoin.delete_all
+      UserLocation.delete_all
 
 	  	respond_to do |format|
 	      format.json { render json: {"Success": "Successful"}, status: 200}

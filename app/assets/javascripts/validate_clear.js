@@ -9,6 +9,7 @@ $(document).ready(function() {
 													" - Jobs\n" +
 													" - Tasks\n" +
 													" - Employee Timecards\n\n" +
+													" - User Locations\n" +
 													" Type 'y' to confirm.\n";
 			var answer = window.prompt(prompt);
 			if (answer === 'Y' || answer === 'y' ) {
