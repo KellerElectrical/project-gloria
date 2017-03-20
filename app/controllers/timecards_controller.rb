@@ -163,7 +163,6 @@ class TimecardsController < ApplicationController
 			end
 		  File.delete fn
 		else
-			fail
 			user = User.find(params[:user_id])
 			sunday = datetime_from_param(params[:day]).beginning_of_week - 1.day
 			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
