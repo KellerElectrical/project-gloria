@@ -122,7 +122,7 @@ class TimecardsController < ApplicationController
 					next if task.job_id == 0
 					job = Job.find(task.job_id)
 					key = job.name || job.job_number.to_s
-					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7}
+					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments}
 					hsh[key][:totals][tc.created_at.wday] += task.hours
 				end
 			end
