@@ -41,7 +41,7 @@ class User < ApplicationRecord
           next if task.job_id == 0
           job = Job.find(task.job_id)
           key = job.name || job.job_number.to_s
-          hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments}
+          hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments, confirmed: tc.confirmed, team_members: tc.team_members}
           hsh[key][:totals][tc.created_at.wday] += task.hours
         end
       end
@@ -54,6 +54,8 @@ class User < ApplicationRecord
           row.concat(arr[0..6])
           row << arr[0..6].sum
           row << jobhash[:comments]
+          row << jobhash[:confirmed]
+          row << jobhash[:team_members]
           rows << row
       end
       return nil if rows.empty?

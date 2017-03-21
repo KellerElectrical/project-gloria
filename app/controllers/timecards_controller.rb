@@ -115,14 +115,14 @@ class TimecardsController < ApplicationController
 		if timecards.empty?
 			return nil
 		else
-			# Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: "", confirmed: }, job2:  }
+			# Organize by {job1: {costcode: , totals: [1.5, 0, ... 0], comments: "", confirmed: , team_members, ""}, job2:  }
 			hsh = {}
 			timecards.each do |tc|
 				tc.tasks.each do |task|
 					next if task.job_id == 0
 					job = Job.find(task.job_id)
 					key = job.name || job.job_number.to_s
-					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments, confirmed: tc.confirmed}
+					hsh[key] ||= {costcode: (tc.cost_code || "N/A"), totals: [0] * 7, comments: task.comments, confirmed: tc.confirmed, team_members: tc.team_members}
 					hsh[key][:totals][tc.created_at.wday] += task.hours
 				end
 			end
@@ -135,6 +135,8 @@ class TimecardsController < ApplicationController
 					row.concat(arr[0..6])
 					row << arr[0..6].sum
 					row << jobhash[:comments]
+					row << jobhash[:confirmed]
+					row << jobhash[:team_members]
 					rows << row
 			end
 			return nil if rows.empty?
@@ -224,6 +226,8 @@ class TimecardsController < ApplicationController
 		    	end
 		    	header << "Total"
 		    	header << "Comments"
+		    	header << "Confirmed"
+		    	header << "Team Members"
 		    	csv << header
 
 		    	wk[:rows].each {|row|	csv << row }

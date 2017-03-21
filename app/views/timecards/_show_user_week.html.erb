@@ -15,12 +15,14 @@
 		<% end %>
 		<th class="total">Total</th>
 		<th>Comments</th>
+		<th>Confirmed</th>
+		<th>Team Members</th>
 	</tr>
 	<% sum_total = 0 %>
 	<% rows.each do |row| %>
 		<tr>
 			<% row.each_with_index do |data, i| %>
-				<% sum_total += data if i == (row.size - 2) %>
+				<% sum_total += data if i == (row.size - 4) %>
 				<td class="<%= i == row.size - 2 ? "total" : nil %>"><%= data %>
 				</td>
 			<% end %>
@@ -29,6 +31,9 @@
 	<tr>
 		<%= raw("<td></td>" * 9) %>
 		<td class="total"><%= sum_total %></td>
+		<td></td>
+		<td></td>
+		<td></td>
 		</tr>
 	</tr>
 </table>

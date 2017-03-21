@@ -17,21 +17,23 @@ class TimecardMailer < ApplicationMailer
   def send_all_weeks(email)
     @users = User.order(:email)
     @weeks = []
+    day = (DateTime.now - 2.days).in_time_zone("Arizona")
     @users.each do |user|
-      @weeks << user.get_user_week(DateTime.now - 2.days)
+      @weeks << user.get_user_week(day)
     end
 
-    sunday = (DateTime.now - 2.days).beginning_of_week - 1.day
+    sunday = (day).beginning_of_week - 1.day
     timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
     fn = "all_users_#{timestr}.csv"
-    file = generate_csv(User.order(:email), sunday, fn)
+    file = generate_csv(User.order(:email), day, fn)
     attachments[fn] = File.read(fn)
     timestr = DateTime.now.strftime("%-m/%-d")
     mail(to: email, subject: "Timecards for all users, #{timestr}")
     File.delete fn
   end
 
-  def generate_csv(users, sunday, fn)
+  def generate_csv(users, day, fn)
+    sunday = day.beginning_of_week - 1.day
     CSV.open(fn, "wb") do |csv|
       users.each do |user|
         csv << [user.email]
