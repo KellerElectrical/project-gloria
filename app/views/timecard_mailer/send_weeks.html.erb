@@ -19,7 +19,7 @@
     <% if @confirm %>
       <br>
       <br>
-      <%= link_to "Confirm", user_confirm_week_path(user_id: @user.id, day: @weeks[0][:day]) %>
+      <%= link_to "Confirm", Rails.application.routes.url_helpers.user_confirm_week_url(user_id: @user.id, day: @weeks[0][:day]) %>
 
     <% end %>
 
