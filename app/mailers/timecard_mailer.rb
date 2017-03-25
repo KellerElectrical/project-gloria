@@ -11,7 +11,7 @@ class TimecardMailer < ApplicationMailer
   		finish = weeks.first[:day] + 6.days
   		timestr = "#{start.strftime("%-m/%-d")}-#{finish.strftime("%-m/%-d")}"
 		end
-    mail(to: email, subject: "Timecards for #{user.email}, #{timestr}")
+    mail(to: email, subject: "#{confirm ? "Confirm " : ""}Timecards for #{user.email}, #{timestr}")
 	end
 
   def send_all_weeks(email)
@@ -55,10 +55,5 @@ class TimecardMailer < ApplicationMailer
       csv
     end
   end
-
-  def send_confirm(email, sunday)
-
-  end
-
 
 end
