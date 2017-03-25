@@ -1,5 +1,6 @@
 class TimecardMailer < ApplicationMailer
   include Rails.application.routes.url_helpers
+  
 	def send_weeks(email, user, weeks, confirm=false)
 		@user = user
 		@weeks = weeks

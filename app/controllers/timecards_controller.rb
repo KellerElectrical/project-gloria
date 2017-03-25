@@ -1,5 +1,4 @@
 class TimecardsController < ApplicationController
-
 	before_action :restrict_to_admin, only: [:index]
 
 	def show
@@ -178,8 +177,8 @@ class TimecardsController < ApplicationController
 	end
 
 	def confirm_week
-		user = User.find(params[:id])
-		tc = user.get_weeks_timecard params[:day]
+		@user = User.find(params[:user_id])
+		tc = @user.get_weeks_timecard(DateTime.parse params[:day])
 		tc.each do |tc|
 			tc.confirmed = true
 			tc.save
