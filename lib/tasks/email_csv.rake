@@ -8,10 +8,10 @@ namespace :email do
   end
   task :timecards_confirm => :environment do
     User.all.each do |user|
-      wk = user.get_user_week(DateTime.now - 7.days)
+      wk = user.get_user_week(DateTime.now)
       next if wk.nil?
 
-      TimecardMailer.send_weeks("ewpeters@asu.edu", user, [wk], true).deliver_now
+      TimecardMailer.send_weeks(user.email, user, [wk], true).deliver_now
     end
   end
 end
