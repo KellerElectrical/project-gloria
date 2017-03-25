@@ -11,7 +11,7 @@ namespace :email do
       wk = user.get_user_week(DateTime.now - 7.days)
       next if wk.nil?
 
-      TimecardMailer.send_weeks("ewpeters@asu.edu", user, wk, true).deliver_now
+      TimecardMailer.send_weeks("ewpeters@asu.edu", user, [wk], true).deliver_now
     end
   end
 end
