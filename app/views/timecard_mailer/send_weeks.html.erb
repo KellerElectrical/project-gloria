@@ -19,7 +19,9 @@
     <% if @confirm %>
       <br>
       <br>
-      <%= link_to "Confirm", Rails.application.routes.url_helpers.user_confirm_week_url(user_id: @user.id, day: @weeks[0][:day]) %>
+      <a href="http://localhost:300/user/#{@user.id}/confirm_week?day=#{@weeks[0][:day])}">
+      Confirm
+      </a>
 
     <% end %>
 
