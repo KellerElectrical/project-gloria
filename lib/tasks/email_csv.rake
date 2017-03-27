@@ -15,5 +15,6 @@ namespace :email do
 
         TimecardMailer.send_weeks(user.email, user, [wk], true).deliver_now
       end
+    end
   end
 end
