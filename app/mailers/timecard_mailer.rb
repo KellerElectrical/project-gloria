@@ -39,7 +39,7 @@ class TimecardMailer < ApplicationMailer
     CSV.open(fn, "wb") do |csv|
       users.each do |user|
         csv << [user.email]
-        wk = user.get_user_week(sunday)
+        wk = user.get_user_week(day)
         unless wk.nil?
           header = ["Job Name", "Cost Code"]
           7.times do |i|
