@@ -154,11 +154,12 @@ class TimecardsController < ApplicationController
 	end
 
 	def download_week_csv
+		day = (DateTime.now - 2.days)
+		sunday = day.beginning_of_week - 1.day
 		if params[:user_id] == "all_users"
-			sunday = (DateTime.now - 2.days).beginning_of_week - 1.day
 			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
 			fn = "all_users_#{timestr}.csv"
-			file = generate_csv(User.order(:email), sunday, fn)
+			file = generate_csv(User.order(:email), day, fn)
 			File.open(fn, 'r') do |f|
 				send_data(f.read, filename: fn, type: "application/csv")
 			end
@@ -168,7 +169,7 @@ class TimecardsController < ApplicationController
 			sunday = datetime_from_param(params[:day]).beginning_of_week - 1.day
 			timestr = "#{sunday.strftime("%-m-%-d")}_#{(sunday + 6.days).strftime("%-m-%-d")}"
 			fn = "#{user.email.split("@").first}_#{timestr}.csv"
-			file = generate_csv([user], sunday, fn)
+			file = generate_csv([user], day, fn)
 			File.open(fn, 'r') do |f|
 				send_data(f.read, filename: fn, type: "application/csv")
 			end
@@ -212,11 +213,12 @@ class TimecardsController < ApplicationController
 		DateTime.strptime(param, '%Y-%m-%d %H:%M:%S %Z')
 	end
 
-  def generate_csv(users, sunday, fn)
+  def generate_csv(users, day, fn)
+  	sunday = day.beginning_of_week - 1.day
     CSV.open(fn, "wb") do |csv|
     	users.each do |user|
     		csv << [user.email]
-	    	wk = get_user_week(user, sunday)
+	    	wk = get_user_week(user, day)
 	    	unless wk.nil?
 		    	header = ["Job Name", "Cost Code"]
 		    	7.times do |i|
