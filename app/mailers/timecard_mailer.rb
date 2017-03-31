@@ -51,6 +51,7 @@ class TimecardMailer < ApplicationMailer
           csv << header
 
           wk[:rows].each {|row| csv << row }
+          csv << ["","","","","","","","","", wk[:sum_total]]
         end
         csv << [""]
       end

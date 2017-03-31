@@ -13,7 +13,7 @@
     <% @weeks.each do |wk| %>
       <br>
       <br>
-      <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows] %>
+      <%= render "timecards/show_user_week", datetime: wk[:day], rows: wk[:rows], sum_total: wk[:sum_total] %>
     <% end %>
 
     <% if @confirm %>

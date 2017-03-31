@@ -126,6 +126,7 @@ class TimecardsController < ApplicationController
 				end
 			end
 			rows = [] # 2d array with [jobname, costcode, 7 day values, and 1 total, and comments]
+			sum = 0.to_f
 			hsh.each do |jobname, jobhash|
 					arr = jobhash[:totals]
 					row = []
@@ -133,13 +134,14 @@ class TimecardsController < ApplicationController
 					row << jobhash[:costcode]
 					row.concat(arr[0..6])
 					row << arr[0..6].sum
+					sum += arr[0..6].sum
 					row << jobhash[:comments]
 					row << jobhash[:confirmed]
 					row << jobhash[:team_members]
 					rows << row
 			end
 			return nil if rows.empty?
-			{day: day, rows: rows}
+			{day: day, rows: rows, sum_total: sum}
 		end
 	end
 
@@ -232,6 +234,7 @@ class TimecardsController < ApplicationController
 		    	csv << header
 
 		    	wk[:rows].each {|row|	csv << row }
+		    	csv << ["","","","","","","","","", wk[:sum_total]]
 	    	end
 	    	csv << [""]
 	    end

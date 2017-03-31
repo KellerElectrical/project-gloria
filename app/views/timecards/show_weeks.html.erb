@@ -7,7 +7,7 @@
 <% @weeks.each do |wk| %>
 	<br>
 	<br>
-	<%= render "show_user_week", datetime: wk[:day], rows: wk[:rows] %>
+	<%= render "show_user_week", datetime: wk[:day], rows: wk[:rows], sum_total: wk[:sum_total] %>
 	<br>
 	<form method="POST" action="/send_week_email">
 		<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
