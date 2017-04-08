@@ -65,7 +65,7 @@ Enter the total number of hours put into each Job by all team members.
 		<br>
 	  <input type="text" name="timecard[job_attrs][][comments]" placeholder="Comments" class="comment-field" /><br>
 	  <input type="hidden" name="timecard[job_attrs][][user_id]" value="<%= current_user.id %>"/><br>
-	  <input type="hidden" name="timecard[job_attrs][][hours]" value="<%= @timecard.get_rounded_hours * @timecard.num_members %>"/>
+	  <input type="hidden" name="timecard[job_attrs][][hours]" value="<%= @timecard.get_rounded_hours %>"/>
 	  <br/>
 
 

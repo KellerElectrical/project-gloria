@@ -47,7 +47,7 @@
 
 			<div class="actual">
 			<p>
-				Hours: <span class="actlhrs"><%= actual.hours %></span>,
+				Hours: <span class="actlhrs"><%= actual.hours * (actual.timecards.first.nil? ? 1 : actual.timecards.first.num_members) %></span>,
 				Quantity:	<span class="actlqty"><%= actual.quantity %></span>,
 				Units: <%= actual.quantity_units %>,
 				Date: <%= zone(actual.created_at).strftime("%F %T") %>,

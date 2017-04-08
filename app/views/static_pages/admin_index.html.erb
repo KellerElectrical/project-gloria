@@ -55,7 +55,7 @@
 		<% end %>
 		<br/>
 		<%= form_for(user, url: update_user_admin_url(user)) do |f| %>
-			Admin <%= f.check_box "admin" %>
+			Admin <%= f.check_box "admin",  disabled: (user.email == "jeverson@kellerelectrical.com") %>
 			<input type="submit" value="Update">
 		<% end %>
 		<br/>
