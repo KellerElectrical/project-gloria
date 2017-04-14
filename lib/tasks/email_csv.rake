@@ -8,7 +8,7 @@ namespace :email do
   end
   task :timecards_confirm => :environment do
     day = DateTime.now.in_time_zone("Arizona")
-    if day.wday == 5
+    if day.wday == 0
       User.all.each do |user|
         wk = user.get_user_week(day)
         next if wk.nil?
