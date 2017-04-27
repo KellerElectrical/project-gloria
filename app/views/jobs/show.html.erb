@@ -92,7 +92,6 @@
 <% end %>
 </ul>
 <br/>
-<br/>
 <% if admin %>
 	<h3>New Task:</h3>
 	<%= form_for @task do |f| %>
@@ -113,7 +112,15 @@
 	<% end %>
 	<br/>
 	<br/>
-
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<%= form_for @job, method: :delete do |f| %>
+		<%= submit_tag "Delete Job", class: "destroy-job" %>
+	<% end %>
+	<br/>
+	
 	
 
 

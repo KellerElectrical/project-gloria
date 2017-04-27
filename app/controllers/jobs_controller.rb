@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
 
-	before_action :check_signed_in, only: [:show, :new, :create, :get_tasks]
+	before_action :check_signed_in, only: [:show, :new, :create, :get_tasks, :destroy]
 
 	def show
 		@job = Job.find(params[:id])
@@ -20,7 +20,7 @@ class JobsController < ApplicationController
 	end
 
 	def create
-		@job = Job.create(params.require(:job).permit(:job_number))
+		@job = Job.create(params.require(:job).permit(:name, :job_number))
 		if @job.save
 			redirect_to job_url(@job)
 		else
@@ -37,5 +37,13 @@ class JobsController < ApplicationController
 	    msg = @job.bidtasks.to_json(only: [:id, :name])
 	    format.json  { render :json => msg } # don't do msg.to_json
 	  end
+	end
+
+	def destroy
+		job = Job.find(params[:id])
+		if job
+			job.destroy
+		end
+		redirect_to root_url
 	end
 end

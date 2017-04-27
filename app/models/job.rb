@@ -6,7 +6,11 @@ class Job < ApplicationRecord
 	end
 
 	def get_name
-		"Job #{self.job_number}"
+		if self.name.nil?
+			"Job #{self.job_number}"
+		else
+			self.name
+		end
 	end
 
 	def self.find_or_create_by_name(jobname)

@@ -13,10 +13,13 @@ class ApplicationController < ActionController::Base
 
   def admin_db_clear
   	if current_user.admin?
-  		Job.delete_all
-  		Task.delete_all
-  		Timecard.delete_all
-  		TimecardJoin.delete_all
+      construction_jobs = Job.all.select{|j| j.tasks.select{|t| User.where(admin: true).pluck(:id).include? t.user_id }.size > 0 }.pluck(:id)
+      Job.where.not(id: construction_jobs).delete_all
+      construction_tasks = Task.where(job_id: construction_jobs)
+  		Task.where.not(id: construction_tasks.pluck(:id)).delete_all
+      construction_timecards = construction_tasks.map{|t| t.timecards.pluck(:id)}.flatten
+  		Timecard.where.not(id: construction_timecards).delete_all
+  		TimecardJoin.where.not(task_id: construction_tasks.pluck(:id)).where.not(timecard_id: construction_timecards).delete_all
       UserLocation.delete_all
 
 	  	respond_to do |format|

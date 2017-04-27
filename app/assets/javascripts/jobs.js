@@ -76,4 +76,20 @@ $(document).ready(function() {
   		}
   	}
   };
+
+  var btn = $(".destroy-job")[0];
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var prompt = "Are you sure? This will delete the job on this page and all tasks associated with it.\n\n"+
+                        " Type 'y' to confirm.\n";
+    var answer = window.prompt(prompt);
+    if (answer === 'Y' || answer === 'y' ) {
+
+      var working_msg = $("<br/><span><i>Working...</i></span>");
+      working_msg.insertAfter(btn);
+      $(btn.parentElement).submit();
+      window.location.reload();
+    }
+  });
+
 });

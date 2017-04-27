@@ -5,11 +5,11 @@ $(document).ready(function() {
 		var btn = $(".validate-clear-btn")[0];
 		btn.addEventListener('click', function() {
 
-			var prompt = "Are you sure? This will delete all of the following records:\n\n" +
+			var prompt = "Are you sure? This will delete all of the following records (excluding those related to Construction):\n\n" +
 													" - Jobs\n" +
 													" - Tasks\n" +
-													" - Employee Timecards\n\n" +
-													" - User Locations\n" +
+													" - Employee Timecards\n" +
+													" - User Locations\n\n" +
 													" Type 'y' to confirm.\n";
 			var answer = window.prompt(prompt);
 			if (answer === 'Y' || answer === 'y' ) {

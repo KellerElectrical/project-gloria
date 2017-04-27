@@ -13,10 +13,7 @@
 
 	<ul>
 	<% @jobs.each do |job| %>
-		<% jobname = job.name %>
-		<% if !job.job_number.nil? %>
-		<% jobname = "Job #{job.job_number}" %>
-		<% end%>
+		<% jobname = job.get_name %>
 		<li><%= link_to jobname, job_url(job), method: :get %></li>
 	<% end %>
 	</ul>

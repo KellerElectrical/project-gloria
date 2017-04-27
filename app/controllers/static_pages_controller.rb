@@ -2,7 +2,7 @@ class StaticPagesController < ApplicationController
 	before_action :authenticate
 
 	def index
-		@jobs = Job.all
+		@jobs = Job.all.select{|j| j.tasks.select{|t| User.where(admin: true).pluck(:id).include? t.user_id }.size > 0 }
 		if current_user.admin?
 			render :admin_index
 		else
