@@ -43,7 +43,8 @@ class TimecardsController < ApplicationController
 			redirect_to root_url 
 		else
 			@actual = Task.new
-			@jobs = Job.all.select{|j| !j.tasks.empty? }
+			@jobs = Job.all.select{|j| j.tasks.select{|t| User.where(admin: true).pluck(:id).include? t.user_id }.size > 0 }
+			@jobs = @jobs.select{|j| !j.tasks.empty? }
 			render :edit
 		end
 	end
